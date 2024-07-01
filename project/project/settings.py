@@ -128,7 +128,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-SITE_ID = 1
+SITE_ID = 2
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
@@ -137,6 +137,8 @@ LOGIN_REDIRECT_URL = "main"
 ACCOUNT_LOGOUT_REDIRECT_URL = "index"
 
 ACCOUNT_LOGOUT_ON_GET = True
+
+LOGIN_REDIRECT_URL = "/"
 
 
 # Static files (CSS, JavaScript, Images)
