@@ -7,7 +7,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
 }
 .board-post-btn {
     width: 180px;
@@ -30,8 +29,21 @@
     height: 667px;
     background-color: #ffffff;
     position: relative;
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
 }
-
+#board-create-content-detail {
+    height: 667px;
+    width: 1020px;
+    border: 0;
+    padding: 20px;
+}
+#board-create-content-detail::placeholder {
+    display: flex;
+    align-items: center;
+    line-height: 1.5;
+}
 #board-create-setting-box {
     width: 180px;
     height: 667px;
@@ -39,4 +51,93 @@
     border-radius: 10px 0 0 10px;
     position: absolute;
     right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 20px;
+}
+.board-create-dropdown {
+    position: relative;
+    display: inline-block;
+}
+.board-create-dropdown-btn,
+.board-create-dropdown-btn2,
+.board-create-dropdown-btn3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 135px;
+    height: 38px;
+    border: 1px solid black;
+    font-size: 15px;
+    gap: 10px;
+}
+.board-create-dropdown-img {
+    width: 15px;
+}
+.board-create-dropdown-content,
+.board-create-dropdown-content2,
+.board-create-dropdown-content3 {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    z-index: 2;    
+}
+.board-create-dropdown-content a,
+.board-create-dropdown-content2 a,
+.board-create-dropdown-content3 a {
+    width: 135px;
+    height: 38px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    background-color: var(--main--gray--color);
+}
+.board-create-dropdown-show {
+    display: block;
+}
+.languageBox {
+    background-color: black;
+    color: #ffffff;
+    width: 135px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 15px;
+    line-height: 38px;
+    text-align: center;
+}
+#board-create-selected-languages {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.board-create-img {
+    border: 1px solid black; 
+    width: 135px;
+    height: 38px;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    bottom: 0;
+    margin: 20px 0;
+}
+.board-create-img img {
+    width: 20px;
+}
+#board-file-input {
+    display: none;
+}
+#board-file-display {
+    display: none;
+    position: absolute;
+    bottom: 70px;
+    width: 135px;
+    overflow: hidden;
 }

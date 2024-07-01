@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>ProReflect</title>
 </head>
@@ -13,20 +12,15 @@
     <header id="header">
         <a href="{% url 'main' %}" id="header-logo">ProReflect</a>
         <nav id="header-nav">
-           <a href="{% url 'board_list' %}">공유용 게시판</a>
-           <a href="">회고용 게시판</a>
-           <a href="">프로젝트로그</a>
-           <a href="">마이페이지</a> 
+            <a href="{% url 'board_list' %}">공유용 게시판</a>
+            <a href="">프로젝트로그</a>
+            <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
         </nav>
     </header>
     <main>
-        {% load socialaccount %}
-        <a href="{% provider_login_url 'kakao' %}">
-            <img src="{% static 'img/kakao_login.png' %}" alt="카카오 로그인" />
-        </a>
-        <a href="{% provider_login_url 'naver' %}" class="login-button">
-            <img src="{% static 'img/naver_login.png' %}" alt="네이버 로그인" />
-        </a>
+        {% if username %}
+            <p>{{ username }}님 환영합니다!</p>
+        {% endif %}
     </main>
 </body>
 </html>
