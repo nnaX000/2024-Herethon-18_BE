@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import KakaoUser, NaverUser
 
-# Register your models here.
+admin.site.register(KakaoUser)
+admin.site.register(NaverUser)
