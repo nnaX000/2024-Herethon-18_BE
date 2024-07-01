@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/board_create.css' %}">
+    <title>ProReflect</title>
+</head>
+<body>
+    <header id="header">
+        <a href="" id="header-logo">ProReflect</a>
+        <nav id="header-nav">
+           <a href="">공유용 게시판</a>
+           <a href="">회고용 게시판</a>
+           <a href="">프로젝트로그</a>
+           <a href="">마이페이지</a> 
+        </nav>
+    </header>
+    <main>
+        <h1 id="board-create-title">Reflect 작성</h1>
+        <div id="board-create-top">
+            <input type="text" id="board-create-post-title" placeholder="제목을 입력해 주세요.">
+            <button class="board-post-btn">Reflect 게시</button>
+        </div>
+        <div id="board-create-content">
+            <!-- <input type="text" id="board-create-content-detail"> -->
+            <div id="board-create-setting-box"></div>
+        </div>
+    </main>
+</body>
+</html>

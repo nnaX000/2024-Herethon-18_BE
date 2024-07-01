@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/board_create.css' %}">
+    <title>ProReflect</title>
+</head>
+<body>
+    <header id="header">
+        <a href="" id="header-logo">ProReflect</a>
+        <nav id="header-nav">
+           <a href="">공유용 게시판</a>
+           <a href="">회고용 게시판</a>
+           <a href="">프로젝트로그</a>
+           <a href="">마이페이지</a> 
+        </nav>
+    </header>
+    <main>
+        <div class="search-container">
+            <img src="{% static 'img/board-search.svg' %}" alt="검색창 아이콘">
+            <input type="text" class="board-search" placeholder="검색어를 입력해주세요">
+        </div>
+        <button class="board-post-btn">Reflect 작성</button>
+        <div class="board-list">
+            <div class="board-list-post">
+                <img src="{% static 'img/board-search.svg' %}" alt="게시판 포스트 사진" class="board-list-img"> <!-- 사진은 임시로 넣어둠 -->
+                <h2 class="board-list-title">Title</h2>
+                <p class="board-list-username">Username</p>
+                <p class="board-list-content">This is the description of the project. It contains the period of development, number of members, type of language used during the project, etc. Members who participate in the selected project could be mentioned with ‘@’, as long as the members are also registered to this service. You can easily invite your friends to your service.  Our team hopes that you will have productive time and growth using this platform! In case the description of a project is longer than the textbox, it will appear like this.</p>
+            </div>
+            <div class="board-list-post">
+                <img src="{% static 'img/board-search.svg' %}" alt="게시판 포스트 사진" class="board-list-img"> <!-- 사진은 임시로 넣어둠 -->
+                <h2 class="board-list-title">Title</h2>
+                <p class="board-list-username">Username</p>
+                <p class="board-list-content">This is the description of the project. It contains the period of development, number of members, type of language used during the project, etc. Members who participate in the selected project could be mentioned with ‘@’, as long as the members are also registered to this service. You can easily invite your friends to your service.  Our team hopes that you will have productive time and growth using this platform! In case the description of a project is longer than the textbox, it will appear like this.</p>
+            </div>
+            <div class="board-list-post">
+                <img src="{% static 'img/board-search.svg' %}" alt="게시판 포스트 사진" class="board-list-img"> <!-- 사진은 임시로 넣어둠 -->
+                <h2 class="board-list-title">Title</h2>
+                <p class="board-list-username">Username</p>
+                <p class="board-list-content">This is the description of the project. It contains the period of development, number of members, type of language used during the project, etc. Members who participate in the selected project could be mentioned with ‘@’, as long as the members are also registered to this service. You can easily invite your friends to your service.  Our team hopes that you will have productive time and growth using this platform! In case the description of a project is longer than the textbox, it will appear like this.</p>
+            </div>
+            <div class="board-list-post">
+                <img src="{% static 'img/board-search.svg' %}" alt="게시판 포스트 사진" class="board-list-img"> <!-- 사진은 임시로 넣어둠 -->
+                <h2 class="board-list-title">Title</h2>
+                <p class="board-list-username">Username</p>
+                <p class="board-list-content">This is the description of the project. It contains the period of development, number of members, type of language used during the project, etc. Members who participate in the selected project could be mentioned with ‘@’, as long as the members are also registered to this service. You can easily invite your friends to your service.  Our team hopes that you will have productive time and growth using this platform! In case the description of a project is longer than the textbox, it will appear like this.</p>
+            </div>
+            <div class="board-list-post">
+                <img src="{% static 'img/board-search.svg' %}" alt="게시판 포스트 사진" class="board-list-img"> <!-- 사진은 임시로 넣어둠 -->
+                <h2 class="board-list-title">Title</h2>
+                <p class="board-list-username">Username</p>
+                <p class="board-list-content">This is the description of the project. It contains the period of development, number of members, type of language used during the project, etc. Members who participate in the selected project could be mentioned with ‘@’, as long as the members are also registered to this service. You can easily invite your friends to your service.  Our team hopes that you will have productive time and growth using this platform! In case the description of a project is longer than the textbox, it will appear like this.</p>
+            </div>
+            <div class="board-list-post">
+                <img src="{% static 'img/board-search.svg' %}" alt="게시판 포스트 사진" class="board-list-img"> <!-- 사진은 임시로 넣어둠 -->
+                <h2 class="board-list-title">Title</h2>
+                <p class="board-list-username">Username</p>
+                <p class="board-list-content">This is the description of the project. It contains the period of development, number of members, type of language used during the project, etc. Members who participate in the selected project could be mentioned with ‘@’, as long as the members are also registered to this service. You can easily invite your friends to your service.  Our team hopes that you will have productive time and growth using this platform! In case the description of a project is longer than the textbox, it will appear like this.</p>
+            </div>
+        </div>
+    </main>
+    {% load static %}
+    <script src="{% static 'js/board_list.js' %}"></script>
+</body>
+</html>
