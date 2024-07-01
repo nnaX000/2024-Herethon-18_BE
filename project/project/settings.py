@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.kakao",
+    "allauth.socialaccount.providers.naver",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -67,7 +68,7 @@ ROOT_URLCONF = "project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS":  [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -128,7 +129,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-SITE_ID = 2
+SITE_ID = 5
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
