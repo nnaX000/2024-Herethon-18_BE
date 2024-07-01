@@ -129,7 +129,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-SITE_ID = 3
+SITE_ID = 5
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 

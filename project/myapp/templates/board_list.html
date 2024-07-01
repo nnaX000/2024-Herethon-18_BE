@@ -26,7 +26,7 @@
             <img src="{% static 'img/board-search.svg' %}" alt="검색창 아이콘">
             <input type="text" class="board-search" placeholder="검색어를 입력해주세요">
         </div>
-        <button class="board-post-btn">Reflect 작성</button>
+        <button class="board-post-btn" onclick="location.href='{% url 'board_create' %}'">Reflect 작성</button>
         <div class="board-list">
             <div class="board-list-post">
                 <img src="{% static 'img/board-search.svg' %}" alt="게시판 포스트 사진" class="board-list-img"> <!-- 사진은 임시로 넣어둠 -->
