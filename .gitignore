@@ -1,0 +1,6 @@
+# .gitignore 파일 내용
+myenv/
+*.pyc
+__pycache__/
+db.sqlite3
+media/
