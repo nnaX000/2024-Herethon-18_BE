@@ -21,8 +21,8 @@ from myapp import views as v
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", v.main),
-    path("board_create/", v.board_create),
-    path("board_list/", v.board_list),
+    path("", v.main, name='main'),
+    path("board_create/", v.board_create, name='board_create'),
+    path("board_list/", v.board_list, name='board_list'),
     path("accounts/", include("allauth.urls")),
 ]
