@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.kakao",
+    "allauth.socialaccount.providers.naver",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -128,7 +129,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-SITE_ID = 2
+SITE_ID = 3
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
@@ -150,3 +151,31 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# settings.py
+
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "console": {
+#             "class": "logging.StreamHandler",
+#         },
+#     },
+#     "root": {
+#         "handlers": ["console"],
+#         "level": "DEBUG",
+#     },
+#     "loggers": {
+#         "django": {
+#             "handlers": ["console"],
+#             "level": "DEBUG",
+#             "propagate": True,
+#         },
+#         "myapp": {  # myapp을 실제 앱 이름으로 변경
+#             "handlers": ["console"],
+#             "level": "DEBUG",
+#             "propagate": True,
+#         },
+#     },
+# }

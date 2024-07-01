@@ -24,7 +24,7 @@
         <a href="{% provider_login_url 'kakao' %}">
             <img src="{% static 'img/kakao_login.png' %}" alt="카카오 로그인" />
         </a>
-        <a href="/naver-login" class="login-button">
+        <a href="{% provider_login_url 'naver' %}" class="login-button">
             <img src="{% static 'img/naver_login.png' %}" alt="네이버 로그인" />
         </a>
     </main>
