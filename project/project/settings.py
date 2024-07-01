@@ -68,7 +68,7 @@ ROOT_URLCONF = "project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS":  [BASE_DIR / 'templates'],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -129,7 +129,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-SITE_ID = 5
+SITE_ID = 3
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
