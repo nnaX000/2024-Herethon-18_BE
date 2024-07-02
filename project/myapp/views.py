@@ -6,6 +6,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from .models import BoardPost
+from django.views.decorators.http import require_POST
+import json
 
 
 def main(request):
@@ -97,19 +99,31 @@ def board_create(request):
 
 
 @login_required
+@require_POST
 def like_post(request, post_id):
+    data = json.loads(request.body.decode("utf-8"))
     post = get_object_or_404(BoardPost, id=post_id)
-    post.likes += 1
-    post.save()
-    return JsonResponse({"likes": post.likes})
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+    return JsonResponse({"likes": post.likes.count(), "liked": liked})
 
 
 @login_required
-def dislike_post(request, post_id):
+@require_POST
+def dislike_post(request, post_id):  # Ensure post_id is accepted as an argument
+    data = json.loads(request.body.decode("utf-8"))
     post = get_object_or_404(BoardPost, id=post_id)
-    post.dislikes += 1
-    post.save()
-    return JsonResponse({"dislikes": post.dislikes})
+    if request.user in post.dislikes.all():
+        post.dislikes.remove(request.user)
+        disliked = False
+    else:
+        post.dislikes.add(request.user)
+        disliked = True
+    return JsonResponse({"dislikes": post.dislikes.count(), "disliked": disliked})
 
 
 @login_required

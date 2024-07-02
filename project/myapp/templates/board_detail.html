@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/board_detail.css' %}">
     <title>ProReflect</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <header id="header">
@@ -26,24 +27,10 @@
             <h1 id="board-detail-title">{{ post.title }}</h1>
             <h3 id="board-detail-username">{{ post.user.username }}</h3>
             <div class="board-detail-top">
-                <div id="board-detail-friends">
-                    <!-- 참여한 친구들 표시 -->
-                </div>
-                <div id="board-detail-btns">
-                    {% if request.user == post.user %}
-                        <button id="board-detail-update">수정하기</button>
-                        <button id="board-detail-delete">삭제하기</button>
-                    {% endif %}
-                </div>
+                <!-- 참여한 친구들 표시 -->
             </div>
             <div id="board-detail-info-container">
-                <div id="board-detail1"> <!-- 개발 기간이랑 참여 인원 -->
-                    <div class="board-detail-info">{{ post.get_development_period_display }}</div>
-                    <div class="board-detail-info">{{ post.get_participants_display }}</div>
-                </div>
-                <div id="board-detail2"> <!-- 사용 언어 -->
-                    <div class="board-detail-info">{{ post.get_language_display }}</div>
-                </div>
+                <!-- 정보 표시 -->
             </div>
             <div class="board-detail-bottom">
                 {% if post.file %}
@@ -53,23 +40,89 @@
                 {% endif %}
                 <p id="board-detail-content">{{ post.content }}</p>
                 <div class="board-detail-bottom-box">
-                    <div class="board-detail-btn-container"> <!-- 좋아요 아쉬워요 기능 -->
-                        <button class="board-detail-btn">
+                    <div class="board-detail-btn-container">
+                        <button class="board-detail-btn" id="like-btn" data-post-id="{{ post.id }}">
                             <img src="{% static 'img/heart.svg' %}" alt="좋아요 버튼 아이콘">
-                            <p>{{ post.likes }}</p>
+                            <span class="likes-count">{{ post.likes.count }}</span>
                         </button>
-                        <button class="board-detail-btn">
+                        <button class="board-detail-btn" id="dislike-btn" data-post-id="{{ post.id }}">
                             <img src="{% static 'img/water-drop.svg' %}" alt="아쉬워요 버튼 아이콘">
-                            <p>{{ post.dislikes }}</p>
+                            <span class="dislikes-count">{{ post.dislikes.count }}</span>
                         </button>
                     </div>
-                    <h4>(최종수정 {{ post.updated_at|date:"Y.m.d" }}) {{ post.created_at|date:"Y.m.d" }}</h4>
                 </div>
             </div>            
         </div>
-        <div class="board-detail-comment-container"> <!-- 댓글 -->
-            <!-- 댓글 로직은 필요에 따라 추가 -->
-        </div>
+        <!-- 댓글 섹션 -->
     </main>
+    <script>
+        $(document).ready(function() {
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = jQuery.trim(cookies[i]);
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            const csrftoken = getCookie('csrftoken');
+    
+            function csrfSafeMethod(method) {
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+    
+            $('#like-btn').click(function() {
+    var postId = $(this).data('post-id');
+    $.ajax({
+        url: '/like_post/' + postId + '/',
+        method: 'POST',
+        contentType: 'application/json',  // Set content type to JSON
+        data: JSON.stringify({}),  // Send empty JSON object
+        success: function(response) {
+            $('.likes-count').text(response.likes);
+            $('#like-btn img').attr('src', response.liked ? '{% static "img/heart-clicked.svg" %}' : '{% static "img/heart.svg" %}');
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error);
+            console.error("Response: " + xhr.responseText);
+        }
+    });
+});
+
+    
+            $('#dislike-btn').click(function() {
+    var postId = $(this).data('post-id');
+    $.ajax({
+        url: '/dislike_post/' + postId + '/',
+        method: 'POST',
+        contentType: 'application/json',  // Ensure the content-type is set to application/json
+        data: JSON.stringify({}),  // Sending an empty object as data
+        success: function(response) {
+            $('.dislikes-count').text(response.dislikes);
+            $('#dislike-btn img').attr('src', response.disliked ? '{% static 'img/water-drop-clicked.svg' %}' : '{% static 'img/water-drop.svg' %}');
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error);
+            console.error("Response: " + xhr.responseText);
+        }
+    });
+});
+
+        });
+    </script>
+    
 </body>
 </html>
