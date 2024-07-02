@@ -18,7 +18,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from myapp import views as v
-from django.contrib.auth.views import LoginView
 from myapp.views import AccountCreateView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -28,7 +27,7 @@ urlpatterns = [
     path("board_create/", v.board_create, name="board_create"),
     path("board_list/", v.board_list, name="board_list"),
     path("accounts/", include("allauth.urls")),
-    path("", LoginView.as_view(template_name="login.html"), name="login"),
+
     path("create/", AccountCreateView.as_view(), name="login_create"),
     path("", v.main, name="main"),
     path("board_create/", v.board_create, name="board_create"),
@@ -38,4 +37,6 @@ urlpatterns = [
     path("grow_1/", v.grow_1, name="grow_1"),
     path("like_post/<int:post_id>/", v.like_post, name="like_post"),
     path("dislike_post/<int:post_id>/", v.dislike_post, name="dislike_post"),
+    
+    path("mypage_share/", v.mypage_share, name="mypage_share"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

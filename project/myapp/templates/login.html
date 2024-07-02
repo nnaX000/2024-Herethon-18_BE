@@ -11,7 +11,7 @@
 </head>
 <body>
     <header id="header">
-        <a href="{% url 'main' %}" id="header-logo">ProReflect</a>
+        <a href="" id="header-logo">ProReflect</a>
         <nav id="header-nav">
             <a href="{% url 'board_list' %}">공유용 게시판</a>
             <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">성장관찰</a>
@@ -19,6 +19,32 @@
         </nav> 
     </header>
     <main>
+        <div class="logo-text">
+            <h1>ProReflect</h1>
+        </div>
+        <form class="login-form">
+            <div class="form-text">
+                <h2>환영합니다!</h2>
+                <p>당신의 성장을 응원합니다.</p>
+            </div>
+            <div class="input-section">
+                <input type="text" id="id_username" placeholder="ID" />
+            </div>
+            <div class="input-section">
+                <input type="password" id="id_password" placeholder="PASSWORD" />
+            </div>
+            <div class="submit">
+                <div class="signup">
+                    <button type="submit" id="submitButton">회원가입</button>
+                </div>
+                <div class="login">
+                    <button type="submit" id="submitButton">로그인</button>
+                </div>
+            </div>
+            <div class="forgot">
+                <p>아이디/비밀번호를 잊으셨나요?</a>
+            </div>
+
         {% load socialaccount %}
         <a href="{% provider_login_url 'kakao' %}">
             <img src="{% static 'img/kakao_login.png' %}" alt="카카오 로그인" />

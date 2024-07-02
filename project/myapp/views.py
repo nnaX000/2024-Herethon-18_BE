@@ -38,6 +38,9 @@ def grow_1(request):
 def login(request):
     return render(request, "login.html")
 
+def mypage_share(request):
+    return render(request, "mypage_share.html")
+
 
 @login_required
 def board_create(request):
