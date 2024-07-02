@@ -6,81 +6,105 @@
     font-size: 2.5em;
 }
 
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 40em;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #9FCBC9;
+    border-radius: 10px;
+}
+
 .form-text h2 {
     margin: 0.8em 0 0.4em 0;
     font-weight: bold;
-    font-size: 1.7em;
-}
-
-.form-text p {
-    margin-bottom: 1em;
-    font-size: 1em;
-    color: #D5D5D5;
-}
-
-.login-form {
-  text-align: center;
-  background-color: white;
-  padding: 1em 5em;
-  border-radius: 5px;
-  width: 40em;
-  margin: 0 auto;
-}
-
-.login-form input[type="text"],
-.login-form input[type="password"] {
-  margin: 0.5em 0;
-  padding: 1em;
-  border: 1px solid #9FCBC9;
-  border-radius: 5px;
-  width: 30rem;
-  font-size: 14px;
-}
-
-.submit {
-    display: flex;
-    justify-content: center;
-    margin: 0.5em 0;
-}
-
-.login-form button {
-  padding: 0.7em;
-  width: 14.8rem;
-  font-size: 16px;
-  font-weight: bold;
-  margin-right: 0.2em;
-}
-
-.signup button{
-    color: #048271;
-    border: 2px solid #048271;
-    border-radius: 5px;
-}
-
-.login button {
+    font-size: 2.5em;
+    text-align: center;
     color: white;
+}
+
+.section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.7em;
+}
+
+.label {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+.access-options {
+    display: flex;
+    gap: 10px;
+}
+
+.option {
+    padding: 0.7em 1.5em;
+    border: 1px solid #048271;
+    background-color: #fff;
+    color:#048271;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.option.selected {
     background-color: #048271;
-    border: 2px solid #048271;
+    color: #fff;
+}
+
+.input-box {
+    border: 1px solid #048271;
+    padding: 0.8em 1.5em;
+    border: none;
+    border-radius: 5px;
+    margin: 0px 1.5em;
+    flex: 1;
+}
+
+.add-button {
+    padding: 0.7em 1.5em;
+    border-radius: 5px;
+    background-color: #048271;
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #fff;
+    cursor: pointer;
+}
+
+.invited-friends {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #048271;
+    font-weight: bold;
+}
+
+.invited-list {
+    display: none;
+    flex-direction: column;
+    padding: 1em 3em;
+    background-color: #fff;
     border-radius: 5px;
 }
 
-.forgot {
-    margin-top: 1em ;
-    color: #D5D5D5;
-    font-size: 0.9em;
-    text-align: end;
-    text-decoration: underline;
-}
 
-.social-login {
+.friend {
     display: flex;
-    justify-content: center;
-    margin: 1em 0;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.social-login img {
-    width:auto;
-    height: 3.4em;
-    margin: 0 10px;
+.remove-button {
+    padding: 5px 10px;
+    margin : 0.2em 0;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    background-color: #9FCBC9;
+    color: #fff;
     cursor: pointer;
 }

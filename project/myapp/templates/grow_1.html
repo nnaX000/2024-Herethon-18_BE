@@ -37,6 +37,10 @@
         <div class="graph-container">
             <h1 class="history-container">
                 성장 History
+                <h1 class="add-container">
+                    <br /><br /><br /><br /><br /><br /><br /><br />성장률=좋아요
+                    수/해당 게시물 조회수
+                </h1>
                 <img src="{% static 'img/QuestionMark.svg' %}" alt="성장 History" class="QuestionMark-img" />
             </h1>
             <div class="percent-container">
@@ -44,7 +48,15 @@
             </div>
             <div class="vertical"></div>
             <div class="horizon"></div>
+            <div class="Bigdate-container">
+                <div class="date-container1">YY.MM.DD</div>
+                <div class="date-container2">YY.MM.DD</div>
+                <div class="date-container3">YY.MM.DD</div>
+                <div class="date-container4">YY.MM.DD</div>
+                <div class="date-container5">YY.MM.DD</div>
+            </div>
         </div>
+        <!--그래프 박스-->
         <div class="project-container">
             <h1 class="text5-container">지금까지의 프로젝트</h1>
             {% for post in user_posts %}
@@ -58,13 +70,20 @@
                         {% endif %}
                     </div>
                     <div class="project-content">
-                        <h2>{{ post.title }}</h2>
-                        <p>{{ post.content }}</p>
-                        <div class="project-metadata">
-                            <span>좋아요 {{ post.likes }} · 댓글 {{ post.dislikes }}</span>
-                            <span>{{ post.created_at|date:"Y.m.d" }}</span>
-                        </div>
-                        <button class="view-project">회고하러 가기</button>
+                        <h1 class="title-container">{{ post.title }}</h1>
+                        <h1 class="explain-container">{{ post.content }}</h1>
+                        <div class="detail-container">
+                            <!-- <div class="project-metadata"> -->
+                                <h1 class="goodtext-container">좋아요</h1>
+                                <h1 class="goodscore-container">{{ post.likes.count }}</h1>
+                                <h1 class="comment-container">댓글</h1>
+                                <h1 class="commentscore-container">{{ post.comments.count }}</h1>
+                                <br />
+                                <h1 class="date-container"><br /><br />{{ post.created_at|date:"Y.m.d" }}</h1>
+                            </div>
+                            <button type="button" class="Retrospective" onclick="location.href='grow_2.html'">
+                                <h1 class="text-container">회고하러 가기</h1>
+                        
                     </div>
                 </div>
             </div>

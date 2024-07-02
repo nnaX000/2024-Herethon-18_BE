@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/board_create.css' %}">
     <title>ProReflect</title>
 </head>
@@ -21,7 +23,11 @@
 <main>
     <form action="{% url 'board_create' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <h1 id="board-create-title">Reflect 작성</h1>
+        <h1 id="board-create-title">Reflect 작성
+            <button class="back-icon-btn">
+                <img src="{% static 'img/back-button.svg' %}" alt="뒤로가기 아이콘">
+            </button>
+        </h1>
         <div id="board-create-top">
             <input type="text" id="board-create-post-title" name="title" placeholder="제목을 입력해 주세요.">      
             <button class="board-post-btn">Reflect 게시</button>

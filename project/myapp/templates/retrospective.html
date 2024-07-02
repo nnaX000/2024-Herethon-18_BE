@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/board_detail.css">
+    <title>ProReflect</title>
+</head>
+<body>
+    <header id="header">
+        <a href="" id="header-logo">ProReflect</a>
+        <nav id="header-nav">
+           <a href="board_list.html">공유용 게시판</a>
+           <a href="">프로젝트로그</a>
+           <a href="">마이페이지</a> 
+        </nav>
+    </header>
+    <main>
+        <img src="../img/back-button.svg" alt="뒤로가기 아이콘" class="back-btn-icon">
+        <div class="board-detail-container">
+            <h1 id="board-detail-title">Title</h1>
+            <h3 id="board-detail-username">Username</h3>
+            <div class="board-detail-top">
+                <div id="board-detail-friends">
+                    <h4>@other_user</h4>
+                    <h4>@other_user_with_a_long_name</h4>
+                    <h4>@other_user1</h4>
+                </div>
+                <div id="board-detail-btns">
+                    <button id="board-detail-update">수정하기</button>
+                    <button id="board-detail-delete">삭제하기</button>
+                </div>
+            </div>
+            <div id="board-detail-info-container">
+                <div id="board-detail1"> <!-- 개발 기간이랑 참여 인원 -->
+                    <div class="board-detail-info">0~3개월</div>
+                    <div class="board-detail-info">1~6명</div>
+                </div>
+                <div id="board-detail2"> <!-- 사용 언어 -->
+                    <div class="board-detail-info">HTML</div>
+                    <div class="board-detail-info">CSS</div>
+                    <div class="board-detail-info">Django</div>
+                </div>
+            </div>
+            <div class="board-detail-bottom">
+                <img src="../img/board-search.svg" alt="게시글 이미지" id="board-detail-img"> <!-- 임의로 넣어둠 -->
+                <p id="board-detail-content">
+                    This is the description of the project. It contains the period of development, number of members, type of language used during the project, etc. Members who participate in the selected project could be mentioned with ‘@’, as long as the members are also registered to this service. You can easily invite your friends to your service. Our team hopes that you will have productive time and growth using this platform! In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this. In case the description of a project is longer than the textbox, it will appear like this    
+                </p>
+                <div class="board-detail-bottom-box">
+                    <div class="board-detail-btn-container"> <!-- 좋아요 아쉬워요 기능 -->
+                        <button class="board-detail-btn">
+                            <img src="../img/heart.svg" alt="좋아요 버튼 아이콘">
+                            <p>17</p> <!-- 좋아요수 -->
+                        </button>
+                        <button class="board-detail-btn">
+                            <img src="../img/water-drop.svg" alt="아쉬워요 버튼 아이콘">
+                            <p>3</p> <!-- 아쉬워요수 -->
+                        </button>
+                    </div>
+                    <h4>(최종수정 YYYY.MM.DD) YYYY.MM.DD</h4>
+                </div>
+            </div>            
+        </div>
+        <div class="board-detail-comment-container"> <!-- 댓글 -->
+            <div class="board-detail-comment">
+                <div class="board-detail-comment-info">
+                    <div class="board-detail-comment-username">Username</div>
+                    <div class="board-detail-comment-date">YYYY.MM.DD</div>
+                </div>
+                <p class="board-detail-comment-content">
+                    This is a comment about a certain post. ser can write no matter what is concerned with the post. Users could talk about their impressions, good points, some possible improvements about the project, etc. They could also give a question to the writer with this comment function.
+                </p>
+            </div>
+            <div class="board-detail-comment">
+                <div class="board-detail-comment-info">
+                    <div class="board-detail-comment-username">Username</div>
+                    <div class="board-detail-comment-date">YYYY.MM.DD</div>
+                </div>
+                <p class="board-detail-comment-content">
+                    This is a comment about a certain post. ser can write no matter what is concerned with the post. Users could talk about their impressions, good points, some possible improvements about the project, etc. They could also give a question to the writer with this comment function.
+                </p>
+            </div>
+            <div class="board-detail-comment">
+                <div class="board-detail-comment-info">
+                    <div class="board-detail-comment-username">Username</div>
+                    <div class="board-detail-comment-date">YYYY.MM.DD</div>
+                </div>
+                <p class="board-detail-comment-content">
+                    This is a comment about a certain post. ser can write no matter what is concerned with the post. Users could talk about their impressions, good points, some possible improvements about the project, etc. They could also give a question to the writer with this comment function.
+                </p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
