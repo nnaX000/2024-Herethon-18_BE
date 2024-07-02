@@ -130,7 +130,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-SITE_ID = 5
+SITE_ID = 9
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
@@ -141,6 +141,10 @@ ACCOUNT_LOGOUT_REDIRECT_URL = "index"
 ACCOUNT_LOGOUT_ON_GET = True
 
 LOGIN_REDIRECT_URL = "/"
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 # Static files (CSS, JavaScript, Images)

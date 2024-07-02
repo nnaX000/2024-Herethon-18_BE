@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/grow_1.css' %}">
+    <title>ProReflect</title>
+</head>
+<body>
+    <header id="header">
+        <a href="{% url 'main' %}" id="header-logo">ProReflect</a>
+        <nav id="header-nav">
+            <a href="{% url 'board_list' %}">공유용 게시판</a>
+            <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">성장관찰</a>
+            <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
+        </nav>
+    </header>
+    <main>
+        <div class="Big-container">
+            <div class="post-container">
+                <h1 class="text1-container">총 포스트</h1>
+                <h1 class="score-container">{{ total_posts }}</h1>
+                <h1 class="unit-container">개</h1>
+                <h1 class="text2-container">를 올렸어요!</h1>
+            </div>
+
+            <div class="user-container">
+                <h1 class="text3-container">사용자</h1>
+                <h1 class="score2-container">{{ total_likes }}</h1>
+                <h1 class="unit2-container">명</h1>
+                <h1 class="text4-container">이 좋아했어요!</h1>
+            </div>
+        </div>
+        <div class="graph-container">
+            <h1 class="history-container">
+                성장 History
+                <img src="{% static 'img/QuestionMark.svg' %}" alt="성장 History" class="QuestionMark-img" />
+            </h1>
+            <div class="percent-container">
+                90%<br />70%<br />50%<br />30%<br />10%<br />0%
+            </div>
+            <div class="vertical"></div>
+            <div class="horizon"></div>
+        </div>
+        <div class="project-container">
+            <h1 class="text5-container">지금까지의 프로젝트</h1>
+            {% for post in user_posts %}
+            <div class="project-container">
+                <div class="project-details">
+                    <div class="project-image">
+                        {% if post.file %}
+                            <img src="{{ post.file.url }}" alt="{{ post.title }}의 이미지">
+                        {% else %}
+                            <img src="{% static 'default_image_path.jpg' %}" alt="기본 이미지">
+                        {% endif %}
+                    </div>
+                    <div class="project-content">
+                        <h2>{{ post.title }}</h2>
+                        <p>{{ post.content }}</p>
+                        <div class="project-metadata">
+                            <span>좋아요 {{ post.likes }} · 댓글 {{ post.dislikes }}</span>
+                            <span>{{ post.created_at|date:"Y.m.d" }}</span>
+                        </div>
+                        <button class="view-project">회고하러 가기</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
