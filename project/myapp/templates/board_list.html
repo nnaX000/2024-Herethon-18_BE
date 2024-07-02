@@ -16,7 +16,7 @@
         <a href="" id="header-logo">ProReflect</a>
         <nav id="header-nav">
             <a href="{% url 'board_list' %}">공유용 게시판</a>
-            <a href="">프로젝트로그</a>
+            <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">성장관찰</a>
             <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
         </nav>
     </header>
