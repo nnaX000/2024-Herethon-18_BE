@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/grow_1.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>ProReflect</title>
 </head>
 <body>
@@ -34,17 +35,11 @@
                 <h1 class="text4-container">이 좋아했어요!</h1>
             </div>
         </div>
+
         <div class="graph-container">
-            <h1 class="history-container">
-                성장 History
-                <img src="{% static 'img/QuestionMark.svg' %}" alt="성장 History" class="QuestionMark-img" />
-            </h1>
-            <div class="percent-container">
-                90%<br />70%<br />50%<br />30%<br />10%<br />0%
-            </div>
-            <div class="vertical"></div>
-            <div class="horizon"></div>
+            <canvas id="likesGraph"></canvas>
         </div>
+        
         <div class="project-container">
             <h1 class="text5-container">지금까지의 프로젝트</h1>
             {% for post in user_posts %}
@@ -71,5 +66,62 @@
             {% endfor %}
         </div>
     </main>
+
+    <script type="application/json" id="dates">{{ dates|json_script:"dates" }}</script>
+    <script type="application/json" id="like_counts">{{ like_counts|json_script:"like_counts" }}</script>
+
+    <script>
+        console.log('dates:', document.getElementById('dates').textContent);
+        console.log('like_counts:', document.getElementById('like_counts').textContent);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var datesJson = document.getElementById('dates').textContent;
+            var likeCountsJson = document.getElementById('like_counts').textContent;
+
+            console.log('datesJson:', datesJson);
+            console.log('likeCountsJson:', likeCountsJson);
+
+            try {
+                // JSON 데이터 추출
+                var dates = JSON.parse(datesJson.slice(datesJson.indexOf('['), datesJson.lastIndexOf(']') + 1));
+                var likeCounts = JSON.parse(likeCountsJson.slice(likeCountsJson.indexOf('['), likeCountsJson.lastIndexOf(']') + 1));
+
+                console.log('dates:', dates);
+                console.log('likeCounts:', likeCounts);
+
+                var ctx = document.getElementById('likesGraph').getContext('2d');
+                var likesGraph = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: '일별 좋아요 수',
+                            data: likeCounts,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 3,  // 선의 두께를 3으로 설정
+                            pointRadius: 5, // 데이터 포인트의 반경을 5로 설정
+                            pointBackgroundColor: 'rgba(255, 99, 132, 1)', // 데이터 포인트의 배경 색상
+                            pointBorderColor: '#fff' // 데이터 포인트의 테두리 색상
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        elements: {
+                            line: {
+                                tension: 0.3 // 선의 곡선 정도 (0은 직선)
+                            }
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('JSON parse error:', e);
+            }
+        });
+    </script>    
 </body>
 </html>

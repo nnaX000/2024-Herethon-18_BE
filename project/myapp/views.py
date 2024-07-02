@@ -11,6 +11,8 @@ import json
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models.functions import TruncDate
+from django.db.models.functions import TruncDay
+from django.db.models import Count
 
 
 def main(request):
@@ -137,17 +139,28 @@ def board_list(request):
 
 @login_required
 def grow_1(request):
-    # 현재 로그인된 사용자의 모든 게시물 가져오기
     user_posts = BoardPost.objects.filter(user=request.user)
-    # 각 게시물의 좋아요 수를 합산
     total_likes = sum(post.likes.count() for post in user_posts)
-    # 게시물의 총 개수 계산
     total_posts = user_posts.count()
+
+    # 날짜별 좋아요 수 집계
+    likes_data = (
+        BoardPost.objects.filter(user=request.user)
+        .annotate(date=TruncDay("created_at"))
+        .values("date")
+        .annotate(likes_count=Count("likes"))
+        .order_by("date")
+    )
+
+    dates = [data["date"].strftime("%Y-%m-%d") for data in likes_data]
+    like_counts = [data["likes_count"] for data in likes_data]
 
     context = {
         "total_likes": total_likes,
         "total_posts": total_posts,
         "user_posts": user_posts,
+        "dates": dates,
+        "like_counts": like_counts,
     }
     return render(request, "grow_1.html", context)
 

@@ -169,13 +169,22 @@
   .graph-container {
     display: flex;
     flex-direction: row;
-    width: 1200px;
+    width: 800px;
     height: 335px;
     flex-shrink: 0;
     border-radius: 20px;
     background-color: #048271;
     margin-top: 24px;
-  }
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+canvas#likesGraph {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 335px; /* graph-container의 세로 길이와 일치시킴 */
+}
+
   
   .history-container {
     display: flex;
