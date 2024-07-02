@@ -61,7 +61,7 @@
                         <h2>{{ post.title }}</h2>
                         <p>{{ post.content }}</p>
                         <div class="project-metadata">
-                            <span>좋아요 {{ post.likes }} · 댓글 {{ post.dislikes }}</span>
+                            <span>좋아요 {{ post.likes.count }} · 댓글 {{ post.dislikes.count }}</span>
                             <span>{{ post.created_at|date:"Y.m.d" }}</span>
                         </div>
                         <button class="view-project">회고하러 가기</button>
