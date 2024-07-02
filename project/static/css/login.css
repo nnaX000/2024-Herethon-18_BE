@@ -1,0 +1,87 @@
+.logo-text {
+    margin: 3em 0 1em 0;
+    text-align: center;
+    font-weight: bold;
+    color:#048271;
+    font-size: 2.5em;
+}
+
+.form-text h2 {
+    margin: 0.8em 0 0.4em 0;
+    font-weight: bold;
+    font-size: 1.7em;
+}
+
+.form-text p {
+    margin-bottom: 1em;
+    font-size: 1em;
+    color: #D5D5D5;
+}
+
+.login-form {
+  text-align: center;
+  background-color: white;
+  padding: 1em 5em;
+  border-radius: 5px;
+  width: 40em;
+  margin: 0 auto;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  margin: 0.5em 0;
+  padding: 1em;
+  border: 1px solid #9FCBC9;
+  border-radius: 5px;
+  width: 30rem;
+  font-size: 14px;
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+    margin: 0.5em 0;
+}
+
+.login-form button {
+  padding: 0.7em;
+  width: 14.8rem;
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 0.2em;
+}
+
+.signup button{
+    color: #048271;
+    border: 2px solid #048271;
+    border-radius: 5px;
+}
+
+.login button {
+    color: white;
+    background-color: #048271;
+    border: 2px solid #048271;
+    border-radius: 5px;
+}
+
+.forgot {
+    margin-top: 1em ;
+    color: #D5D5D5;
+    font-size: 0.9em;
+    text-align: end;
+    text-decoration: underline;
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    margin: 1em 0;
+}
+
+.social-login img {
+    width:auto;
+    height: 3.4em;
+    margin: 0 10px;
+    cursor: pointer;
+}
+

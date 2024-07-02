@@ -5,22 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>ProReflect</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <title>home</title>
 </head>
 <body>
     <header id="header">
-        <a href="{% url 'main' %}" id="header-logo">ProReflect</a>
+        <a href="" id="header-logo">ProReflect</a>
         <nav id="header-nav">
             <a href="{% url 'board_list' %}">공유용 게시판</a>
             <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">성장관찰</a>
             <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
         </nav>
     </header>
+    
     <main>
-        {% if username %}
-            <p>{{ username }}님 환영합니다!</p>
-        {% endif %}
+        <div class="search-container">
+            <img src="{% static 'img/board-search.svg' %}" alt="검색창 아이콘">
+            <input type="text" class="board-search" placeholder="검색어를 입력해주세요">
+        </div>
+        <section class="project-section">
+            <h2>최근에 올라온 프로젝트</h2>
+            <div class="project-container" id="recent-projects">
+                <!-- <div class="project-box">
+                    <img src="{% static 'img/person.png' %}" alt="프로젝트 이미지">
+                    <div class="project-title">프로젝트 제목</div>
+                    <div class="project-content">프로젝트 설명</div>
+                </div>  -->               
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>사람들이 많이 본 프로젝트</h2>
+            <div class="project-container" id="most-viewed-projects">
+                <!-- <div class="project-box">
+                    <img src="/img/person.png" alt="프로젝트 이미지">
+                    <div class="project-title">프로젝트 제목</div>
+                    <div class="project-content">프로젝트 설명</div>
+                </div> -->
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>인기 있는 프로젝트</h2>
+            <div class="project-container" id="popular-projects">
+                <!-- <div class="project-box">
+                    <img src="/img/person.png" alt="프로젝트 이미지">
+                    <div class="project-title">프로젝트 제목</div>
+                    <div class="project-content">프로젝트 설명</div>
+                </div> -->
+            </div>
+        </section>
     </main>
+    {% load static %}
+    <script src="{% static 'js/home.js' %}"></script>
 </body>
 </html>
