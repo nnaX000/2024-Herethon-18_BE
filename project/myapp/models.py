@@ -64,8 +64,8 @@ class BoardPost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    likes = models.PositiveIntegerField(default=0)
-    dislikes = models.PositiveIntegerField(default=0)
+    likes = models.ManyToManyField(User, related_name="liked_posts", blank=True)
+    dislikes = models.ManyToManyField(User, related_name="disliked_posts", blank=True)
 
     def __str__(self):
         return self.title
