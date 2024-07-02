@@ -3,6 +3,8 @@ from django.urls import path, include
 from myapp import views as v
 from django.contrib.auth.views import LoginView
 from myapp.views import AccountCreateView
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -20,4 +22,4 @@ urlpatterns = [
     path("grow_1/", v.grow_1, name="grow_1"),
     path("like_post/<int:post_id>/", views.like_post, name="like_post"),
     path("dislike_post/<int:post_id>/", views.dislike_post, name="dislike_post"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
