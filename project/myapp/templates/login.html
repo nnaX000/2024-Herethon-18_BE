@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+{% load bootstrap4 %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>ProReflect</title>
+</head>
+<body>
+    <header id="header">
+        <a href="" id="header-logo">ProReflect</a>
+        <nav id="header-nav">
+           <a href="{% url 'board_list' %}">공유용 게시판</a>
+           <a href="">회고용 게시판</a>
+           <a href="">프로젝트로그</a>
+           <a href="">마이페이지</a> 
+        </nav>
+    </header>
+    <main>
+        <p>환영합니다</p>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-primary">로그인</button>
+        </form>
+        <a href="{% url 'login_create' %}" class="register-link">회원가입</a>
+        
+        {% load socialaccount %}
+        <a href="{% provider_login_url 'kakao' %}">
+            <img src="{% static 'img/kakao_login.png' %}" alt="카카오 로그인" />
+        </a>
+        <a href="{% provider_login_url 'naver' %}" class="login-button">
+            <img src="{% static 'img/naver_login.png' %}" alt="네이버 로그인" />
+        </a>
+    </main>
+</body>
+</html>

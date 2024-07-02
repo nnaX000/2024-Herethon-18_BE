@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.kakao",
     "allauth.socialaccount.providers.naver",
+    "bootstrap4",
 ]
 
 AUTHENTICATION_BACKENDS = [
