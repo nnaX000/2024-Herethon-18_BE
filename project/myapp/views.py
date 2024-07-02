@@ -1,14 +1,44 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
+from .models import BoardPost
 
 
 def main(request):
-    return render(request, "main.html")
+    context = {}
+
+    if request.user.is_authenticated:
+        try:
+            kakao_user = KakaoUser.objects.get(user=request.user)
+            context["username"] = kakao_user.nickname
+        except KakaoUser.DoesNotExist:
+            try:
+                naver_user = NaverUser.objects.get(user=request.user)
+                context["username"] = naver_user.nickname
+            except NaverUser.DoesNotExist:
+                # 로그인은 되어 있으나, 어느 쪽 데이터베이스에도 사용자 정보가 없는 경우
+                context["username"] = None
+    else:
+        # 사용자가 로그인하지 않은 경우
+        context["username"] = None
+
+    recent_posts = BoardPost.objects.order_by("-created_at")[:15]
+    most_viewed_posts = BoardPost.objects.order_by("-likes")[:15]
+    popular_posts = BoardPost.objects.order_by("-likes")[:15]
+
+    context.update(
+        {
+            "recent_posts": recent_posts,
+            "most_viewed_posts": most_viewed_posts,
+            "popular_posts": popular_posts,
+        }
+    )
+
+    return render(request, "main.html", context)
 
 
 def board_list(request):
@@ -37,6 +67,7 @@ def grow_1(request):
 
 def login(request):
     return render(request, "login.html")
+
 
 def mypage_share(request):
     return render(request, "mypage_share.html")
@@ -102,22 +133,11 @@ def grow_1(request):
     return render(request, "grow_1.html", context)
 
 
-def main(request):
-    context = {}
+@login_required
+def board_detail(request, post_id):
+    post = get_object_or_404(BoardPost, id=post_id)
 
-    if request.user.is_authenticated:
-        try:
-            kakao_user = KakaoUser.objects.get(user=request.user)
-            context["username"] = kakao_user.nickname
-        except KakaoUser.DoesNotExist:
-            try:
-                naver_user = NaverUser.objects.get(user=request.user)
-                context["username"] = naver_user.nickname
-            except NaverUser.DoesNotExist:
-                # 로그인은 되어 있으나, 어느 쪽 데이터베이스에도 사용자 정보가 없는 경우
-                context["username"] = None
-    else:
-        # 사용자가 로그인하지 않은 경우
-        context["username"] = None
-
-    return render(request, "main.html", context)
+    context = {
+        "post": post,
+    }
+    return render(request, "board_detail.html", context)

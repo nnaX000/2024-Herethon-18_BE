@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/board_create.css' %}">
     <title>ProReflect</title>
 </head>
 <body>
-    
-
 <header id="header">
     <a href="{% url 'main' %}" id="header-logo">ProReflect</a>
     <nav id="header-nav">
@@ -32,9 +28,8 @@
         </div>
         <div id="board-create-content">
             <textarea id="board-create-content-detail" name="content" placeholder="프로젝트의 목적, 개발 스택, 배포 링크, 깃허브 주소 등 개발했던 프로젝트와 관련된 이야기를 써주세요. 같이 프로젝트에 참여한 사람을 @멘션 해보세요!"></textarea>
-            <input type="hidden" name="participants" id="participants-input">
+            <input type="hidden" name="participants" id="participants_input">
             <input type="hidden" name="development_period" id="development_period_input">
-            <input type="hidden" name="team_size" id="team_size_input">
             <input type="hidden" name="language" id="language_input">
             <input type="file" name="file" id="board-file-input" style="display:none;">
             <div id="board-create-setting-box">
@@ -45,10 +40,10 @@
                         <img src="{% static 'img/inverted-triangle.svg' %}" alt="드롭다운 아이콘" class="board-create-dropdown-img">
                     </button>
                     <div class="board-create-dropdown-content">
-                        <a href="#" onclick="selectOption('0~3개월'); event.preventDefault()">0~3개월</a>
-                        <a href="#" onclick="selectOption('4~7개월'); event.preventDefault()">4~7개월</a>
-                        <a href="#" onclick="selectOption('8~11개월'); event.preventDefault()">8~11개월</a>
-                        <a href="#" onclick="selectOption('12개월 이상'); event.preventDefault()">12개월 이상</a>
+                        <a href="#" onclick="selectOption('0-3', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()">0~3개월</a>
+                        <a href="#" onclick="selectOption('4-7', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()">4~7개월</a>
+                        <a href="#" onclick="selectOption('8-11', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()">8~11개월</a>
+                        <a href="#" onclick="selectOption('12+', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()">12개월 이상</a>
                     </div>                    
                 </div>
 
@@ -59,10 +54,10 @@
                         <img src="{% static 'img/inverted-triangle.svg' %}" alt="드롭다운 아이콘" class="board-create-dropdown-img">
                     </button>
                     <div class="board-create-dropdown-content2">
-                        <a href="#" onclick="selectOption2('1~6명'); event.preventDefault()">1~6명</a>
-                        <a href="#" onclick="selectOption2('7~12명'); event.preventDefault()">7~12명</a>
-                        <a href="#" onclick="selectOption2('13~18명'); event.preventDefault()">13~18명</a>
-                        <a href="#" onclick="selectOption2('19명 이상'); event.preventDefault()">19명 이상</a>
+                        <a href="#" onclick="selectOption('1-6', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()">1~6명</a>
+                        <a href="#" onclick="selectOption('7-12', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()">7~12명</a>
+                        <a href="#" onclick="selectOption('13-18', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()">13~18명</a>
+                        <a href="#" onclick="selectOption('19+', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()">19명 이상</a>
                     </div>                    
                 </div>
 
@@ -73,16 +68,16 @@
                         <img src="{% static 'img/inverted-triangle.svg' %}" alt="드롭다운 아이콘" class="board-create-dropdown-img">
                     </button>
                     <div class="board-create-dropdown-content3">
-                        <a href="#" onclick="selectLanguage('Python'); event.preventDefault()">Python</a>
-                        <a href="#" onclick="selectLanguage('NumPy'); event.preventDefault()">NumPy</a>
-                        <a href="#" onclick="selectLanguage('Pandas'); event.preventDefault()">Pandas</a>
-                        <a href="#" onclick="selectLanguage('Java'); event.preventDefault()">Java</a>
-                        <a href="#" onclick="selectLanguage('JavaScript'); event.preventDefault()">JavaScript</a>
-                        <a href="#" onclick="selectLanguage('Django'); event.preventDefault()">Django</a>
-                        <a href="#" onclick="selectLanguage('HTML'); event.preventDefault()">HTML</a>
-                        <a href="#" onclick="selectLanguage('CSS'); event.preventDefault()">CSS</a>
-                        <a href="#" onclick="selectLanguage('C++'); event.preventDefault()">C++</a>
-                        <a href="#" onclick="selectLanguage('직접 입력'); event.preventDefault()">직접 입력</a>
+                        <a href="#" onclick="selectLanguage('python'); event.preventDefault()">Python</a>
+                        <a href="#" onclick="selectLanguage('numpy'); event.preventDefault()">NumPy</a>
+                        <a href="#" onclick="selectLanguage('pandas'); event.preventDefault()">Pandas</a>
+                        <a href="#" onclick="selectLanguage('java'); event.preventDefault()">Java</a>
+                        <a href="#" onclick="selectLanguage('javascript'); event.preventDefault()">JavaScript</a>
+                        <a href="#" onclick="selectLanguage('django'); event.preventDefault()">Django</a>
+                        <a href="#" onclick="selectLanguage('html'); event.preventDefault()">HTML</a>
+                        <a href="#" onclick="selectLanguage('css'); event.preventDefault()">CSS</a>
+                        <a href="#" onclick="selectLanguage('c++'); event.preventDefault()">C++</a>
+                        <a href="#" onclick="selectLanguage('other'); event.preventDefault()">직접 입력</a>
                     </div>                    
                 </div>
                 
@@ -95,12 +90,12 @@
                     파일 첨부
                     <img src="{% static 'img/paperclip.svg' %}" alt="파일 첨부 아이콘">
                 </div>
-                <input type="file" id="board-file-input">
+                <input type="file" name="file" id="board-file-input">
             </div>
         </div>
-</form>
+    </form>
 </main>
-{% load static %}
-<script src="{% static 'js/board_create.js' %}"></script>
+    {% load static %}
+    <script src="{% static 'js/board_create.js' %}"></script>
 </body>
 </html>

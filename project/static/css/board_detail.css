@@ -1,0 +1,132 @@
+.back-btn-icon {
+    position: fixed;
+    top: 120px;
+    left: 30px;
+}
+.board-detail-container {
+    background-color: #ffffff;
+    padding: 30px;
+    margin: 50px 0;
+}
+.board-detail-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+#board-detail-title {
+    font-weight: bold;
+    font-size: 36px;
+    /* margin: 60px 20px 0 20px; */
+}
+#board-detail-username {
+    color: var(--dark--gray--color);
+    font-size: 14px;
+    /* margin-left: 20px; */
+}
+#board-detail-friends {
+    display: flex;
+    color: var(--dark--gray--color);
+    gap: 20px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    /* margin-left: 20px; */
+}
+#board-detail-btns {
+    /* margin-right: 20px; */
+}
+#board-detail-update {
+    font-size: 20px;
+    text-decoration: underline;
+}
+#board-detail-delete {
+    font-size: 20px;
+    text-decoration: underline;
+}
+#board-detail-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#board-detail1 {
+    display: flex;
+    gap: 10px;
+    /* margin-left: 20px; */
+}
+#board-detail2 {
+    display: flex;
+    gap: 10px;
+    /* margin-left: 20px; */
+}
+.board-detail-info {
+    font-size: 16px;
+    background-color: black;
+    color: #ffffff;
+    width: 100px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 10px;
+}
+.board-detail-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#board-detail-img {
+    width: 520px;
+    height: 390px;
+    margin: 20px auto;
+    object-fit: contain; 
+}
+#board-detail-content {
+    width: 980px;
+}
+.board-detail-bottom-box {
+    display: flex;
+    justify-content: space-between;
+    width: 980px;
+    align-items: center;
+}
+.board-detail-btn-container {
+    display: flex;
+    gap: 10px;
+}
+.board-detail-btn {
+    display: flex;
+    border: 1px solid var(--light--green--color);
+    border-radius: 10px;
+    width: 60px;
+    height: 25px;
+    margin: 20px 0 10px 0;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.board-detail-comment-container {
+    width: 1200px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 50px;
+}
+.board-detail-comment {
+    width: 1000px;
+    background-color: #ffffff;
+    padding: 10px;
+}
+.board-detail-comment-info {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.board-detail-comment-username {
+    font-weight: bolder;
+    font-size: 16px;
+}
+.board-detail-comment-date {
+    font-size: 12px;
+}
+.board-detail-comment-content {
+    font-size: 14px;
+    padding: 10px;
+}

@@ -5,11 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <title>home</title>
+    <style>
+        .recommendation {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 40px 0 20px 0;
+        }
+        .recommendation .username {
+            font-size: 1.7em;
+        }
+        .separator {
+            width: 80%;
+            margin: 10px auto;
+            border-bottom: 5px solid #ccc;
+        }
+        .search-container {
+            margin-bottom: 110px;
+        }
+        .project-box {
+            margin-bottom: 20px;
+        }
+        .project-box img {
+            width: 100%;
+            height: auto;
+        }
+        .project-title {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .project-content {
+            font-size: 1em;
+        }
+    </style>
 </head>
 <body>
     <header id="header">
@@ -22,40 +53,110 @@
     </header>
     
     <main>
-        <div class="search-container">
+        <div class="search-container" style="text-align: center;">
             <img src="{% static 'img/board-search.svg' %}" alt="검색창 아이콘">
-            <input type="text" class="board-search" placeholder="검색어를 입력해주세요">
+            <input type="text" class="board-search" placeholder="검색어를 입력해주세요" style="display: inline-block;">
         </div>
-        <section class="project-section">
-            <h2>최근에 올라온 프로젝트</h2>
-            <div class="project-container" id="recent-projects">
-                <!-- <div class="project-box">
-                    <img src="{% static 'img/person.png' %}" alt="프로젝트 이미지">
-                    <div class="project-title">프로젝트 제목</div>
-                    <div class="project-content">프로젝트 설명</div>
-                </div>  -->               
+        
+        <div class="recommendation">
+            {% if user.is_authenticated %}
+                <span class="username">{{ user.username }}</span> 님을 위한 추천
+            {% else %}
+                추천 프로젝트
+            {% endif %}
+        </div>
+        <div class="separator"></div>
+
+        <!-- main.html에서 각 게시물에 링크 추가 -->
+<section class="project-section">
+    <h2>최근에 올라온 프로젝트</h2>
+    <div class="project-container" id="recent-projects">
+        {% for post in recent_posts %}
+            <div class="project-box">
+                <a href="{% url 'board_detail' post.id %}">
+                    {% if post.file %}
+                        <img src="{{ post.file.url }}" alt="프로젝트 이미지">
+                    {% else %}
+                        <img src="{% static 'img/default_project_image.png' %}" alt="프로젝트 이미지">
+                    {% endif %}
+                    <div class="project-title">{{ post.title }}</div>
+                    <div class="project-content">{{ post.content }}</div>
+                </a>
             </div>
-        </section>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="project-section">
+    <h2>사람들이 많이 본 프로젝트</h2>
+    <div class="project-container" id="most-viewed-projects">
+        {% for post in most_viewed_posts %}
+            <div class="project-box">
+                <a href="{% url 'board_detail' post.id %}">
+                    {% if post.file %}
+                        <img src="{{ post.file.url }}" alt="프로젝트 이미지">
+                    {% else %}
+                        <img src="{% static 'img/default_project_image.png' %}" alt="프로젝트 이미지">
+                    {% endif %}
+                    <div class="project-title">{{ post.title }}</div>
+                    <div class="project-content">{{ post.content }}</div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="project-section">
+    <h2>인기 있는 프로젝트</h2>
+    <div class="project-container" id="popular-projects">
+        {% for post in popular_posts %}
+            <div class="project-box">
+                <a href="{% url 'board_detail' post.id %}">
+                    {% if post.file %}
+                        <img src="{{ post.file.url }}" alt="프로젝트 이미지">
+                    {% else %}
+                        <img src="{% static 'img/default_project_image.png' %}" alt="프로젝트 이미지">
+                    {% endif %}
+                    <div class="project-title">{{ post.title }}</div>
+                    <div class="project-content">{{ post.content }}</div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
 
         <section class="project-section">
             <h2>사람들이 많이 본 프로젝트</h2>
             <div class="project-container" id="most-viewed-projects">
-                <!-- <div class="project-box">
-                    <img src="/img/person.png" alt="프로젝트 이미지">
-                    <div class="project-title">프로젝트 제목</div>
-                    <div class="project-content">프로젝트 설명</div>
-                </div> -->
+                {% for post in most_viewed_posts %}
+                    <div class="project-box">
+                        {% if post.file %}
+                            <img src="{{ post.file.url }}" alt="프로젝트 이미지">
+                        {% else %}
+                            <img src="{% static 'img/person.png' %}" alt="프로젝트 이미지">
+                        {% endif %}
+                        <div class="project-title">{{ post.title }}</div>
+                        <div class="project-content">{{ post.content }}</div>
+                    </div>
+                {% endfor %}
             </div>
         </section>
 
         <section class="project-section">
             <h2>인기 있는 프로젝트</h2>
             <div class="project-container" id="popular-projects">
-                <!-- <div class="project-box">
-                    <img src="/img/person.png" alt="프로젝트 이미지">
-                    <div class="project-title">프로젝트 제목</div>
-                    <div class="project-content">프로젝트 설명</div>
-                </div> -->
+                {% for post in popular_posts %}
+                    <div class="project-box">
+                        {% if post.file %}
+                            <img src="{{ post.file.url }}" alt="프로젝트 이미지">
+                        {% else %}
+                            <img src="{% static 'img/person.png' %}" alt="프로젝트 이미지">
+                        {% endif %}
+                        <div class="project-title">{{ post.title }}</div>
+                        <div class="project-content">{{ post.content }}</div>
+                    </div>
+                {% endfor %}
             </div>
         </section>
     </main>
