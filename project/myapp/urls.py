@@ -18,6 +18,6 @@ urlpatterns = [
     path("grow_1/", v.grow_1, name="grow_1"),
     path("like_post/<int:post_id>/", views.like_post, name="like_post"),
     path("dislike_post/<int:post_id>/", views.dislike_post, name="dislike_post"),
-    
+    path("post/<int:post_id>/", v.board_detail, name="board_detail"),
     path("mypage_share/", v.mypage_share, name="mypage_share"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
