@@ -5,7 +5,7 @@
     border-radius: 10px;
     width: 792px;
     height: 50px;
-    margin: 30px auto;
+    margin: 30px auto 0 auto;
     background-color: #ffffff;
 }
 .board-search {
@@ -21,14 +21,22 @@
     font-weight: bold;
     color: #ffffff;
     border-radius: 10px;
-    margin: 0 0 30px 1020px;
+    margin: 20px 0 20px 1020px;
 }
-/* 전체 스크롤 말고 .board-list 내에서만 스크롤 되도록 수정해야 함 */
+/* 전체 스크롤 말고 .board-list 내에서만 스크롤 되도록*/
 .board-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 68px;
+    padding-bottom: 30px;
+    max-height: 70vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.board-list::-webkit-scrollbar {
+    width: 0;
 }
 .board-list-post {
     width: 350px;
@@ -43,6 +51,7 @@
 .board-list-img {
     width: 280px;
     height: 210px;
+    object-fit: contain; 
 }
 .board-list-title {
     font-size: 24px;

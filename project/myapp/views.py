@@ -132,12 +132,15 @@ def board_list(request):
     return render(request, "board_list.html")
 
 
+
 @login_required
 def grow_1(request):
     user = request.user
     user_posts = BoardPost.objects.filter(user=user)
     total_posts = user_posts.count()
-    total_likes = sum(post.likes for post in user_posts)
+    
+    # Sum the count of likes for each post
+    total_likes = sum(post.likes.count() for post in user_posts)
 
     context = {
         "total_posts": total_posts,
