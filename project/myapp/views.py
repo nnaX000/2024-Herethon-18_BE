@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -158,3 +159,75 @@ def board_detail(request, post_id):
         "post": post,
     }
     return render(request, "board_detail.html", context)
+
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+from .models import BoardPost  
+
+# @login_required
+# def update(request, post_id):
+#     post = get_object_or_404(BoardPost, id=post_id)
+    
+#     if request.method == "POST":
+#         post.title = request.POST['title']
+#         post.content = request.POST['content']
+#         post.development_period=request.POST['development_period']
+#         post.participants=request.POST['participants']
+#         post.language=request.POST['language']
+#         post.updated_at = timezone.now()
+        
+#         # Handle image upload
+#         try:
+#             post.file = request.FILES['file']
+#         except KeyError:
+#             pass  
+        
+#         post.save()
+        
+#         # Redirect to the post detail page
+#         return redirect('/detail/' + str(post.id))
+    
+#     # Render the update form for GET requests
+#     context = {
+#         'post': post,
+#     }
+#     return render(request, 'board_update.html', context)
+
+def update(request, post_id):
+    if request.method == 'POST':
+        post = BoardPost.objects.get(pk=post_id)  # 예시로 사용할 모델에 맞게 수정해야 합니다.
+
+
+        # 새로운 데이터 저장
+        post.title = request.POST.get('title')
+        post.content = request.POST.get('content')
+        post.participants = request.POST.get('participants')
+        post.development_period = request.POST.get('development_period')
+        post.language = request.POST.get('language')
+        post.updated_at = timezone.now()
+        
+
+        # 파일 업로드 처리 (필요시)
+        if 'file' in request.FILES:
+            file = request.FILES['file']
+            # 파일 처리 로직 추가
+        
+        new_language = request.POST.get('language')
+        if new_language:
+            post.language = new_language
+
+        # 저장
+        post.save()
+        return redirect('/detail/' + str(post.id))
+
+    # GET 요청 처리 (옵션)
+    else:
+        post = BoardPost.objects.get(pk=post_id)
+        context = {'post': post}
+        return render(request, 'board_update.html', context)
+
+
+def delete(request, post_id):
+    post = BoardPost.objects.get(id=post_id)
+    post.delete()
+    return redirect('main') 
