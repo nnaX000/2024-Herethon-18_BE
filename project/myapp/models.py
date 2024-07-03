@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.conf import settings
 
+
 class KakaoUser(models.Model):
     user = models.OneToOneField("auth.User", on_delete=models.CASCADE)
     nickname = models.CharField(max_length=100, blank=False)
@@ -69,18 +70,19 @@ class BoardPost(models.Model):
 
     def __str__(self):
         return self.title
-    
-    
+
+
 from django.db import models
 from django.conf import settings
 
+
 class Comment(models.Model):
-    boardpost = models.ForeignKey(BoardPost, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    content = models.CharField(max_length=200)
+    post = models.ForeignKey(
+        "BoardPost", on_delete=models.CASCADE, related_name="comments", null=True
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.content
-
+        return self.content[:50]  # 댓글의 처음 20자만 표시
