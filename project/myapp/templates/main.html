@@ -129,41 +129,6 @@
         {% endfor %}
     </div>
 </section>
-
-
-        <section class="project-section">
-            <h2>사람들이 많이 본 프로젝트</h2>
-            <div class="project-container" id="most-viewed-projects">
-                {% for post in most_viewed_posts %}
-                    <div class="project-box">
-                        {% if post.file %}
-                            <img src="{{ post.file.url }}" alt="프로젝트 이미지">
-                        {% else %}
-                            <img src="{% static 'img/person.png' %}" alt="프로젝트 이미지">
-                        {% endif %}
-                        <div class="project-title">{{ post.title }}</div>
-                        <div class="project-content">{{ post.content }}</div>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
-
-        <section class="project-section">
-            <h2>인기 있는 프로젝트</h2>
-            <div class="project-container" id="popular-projects">
-                {% for post in popular_posts %}
-                    <div class="project-box">
-                        {% if post.file %}
-                            <img src="{{ post.file.url }}" alt="프로젝트 이미지">
-                        {% else %}
-                            <img src="{% static 'img/person.png' %}" alt="프로젝트 이미지">
-                        {% endif %}
-                        <div class="project-title">{{ post.title }}</div>
-                        <div class="project-content">{{ post.content }}</div>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
     </main>
     {% load static %}
     <script src="{% static 'js/home.js' %}"></script>
