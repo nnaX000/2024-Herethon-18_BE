@@ -54,4 +54,6 @@ urlpatterns = [
     path(
         "detail/<int:post_id>/comment/", v.board_detail, name="comment_create"
     ),  # 댓글 작성 URL 추가
+    path("grow_2/<int:post_id>/", v.grow_2, name="grow_2"),
+    path("save_reflection/<int:post_id>/", v.save_reflection, name="save_reflection"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -14,10 +14,10 @@ from datetime import timedelta
 from django.db.models.functions import TruncDate
 from django.db.models.functions import TruncDay
 from django.db.models import Count
-from .models import Comment
+from .models import Comment, Reflection
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-from .forms import CommentForm
+from .forms import Comment
 
 
 def main(request):
@@ -309,6 +309,7 @@ def logout_view(request):
 def board_detail(request, post_id):
     post = get_object_or_404(BoardPost, pk=post_id)
     comments = Comment.objects.filter(post=post)
+    comments = post.comments.all()
     comment_form = CommentForm()
 
     if request.method == "POST":
@@ -324,5 +325,28 @@ def board_detail(request, post_id):
         "post": post,
         "comments": comments,
         "comment_form": comment_form,
+        "boardpost": post,
     }
     return render(request, "board_detail.html", context)
+
+
+def grow_2(request, post_id):
+    post = get_object_or_404(BoardPost, pk=post_id)
+    context = {
+        "post": post,
+    }
+    return render(request, "grow_2.html", context)
+
+
+@login_required
+def save_reflection(request, post_id):
+    post = get_object_or_404(BoardPost, pk=post_id)
+    if request.method == "POST":
+        content = request.POST.get("reflection_content")
+        if content:
+            reflection = Reflection.objects.create(
+                user=request.user, post=post, content=content
+            )
+            reflection.save()
+            return redirect("grow_1")
+    return render(request, "grow_2.html", {"post": post})
