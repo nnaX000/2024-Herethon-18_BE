@@ -37,6 +37,7 @@ urlpatterns = [
     path("like_post/<int:post_id>/", v.like_post, name="like_post"),
     path("dislike_post/<int:post_id>/", v.dislike_post, name="dislike_post"),
     path("post/<int:post_id>/", v.board_detail, name="board_detail"),
+    path("post/<int:id>/", v.board_detail, name="board_detail"),  # URL이 올바른지 확인
     path("mypage_share/", v.mypage_share, name="mypage_share"),
     path("search/", v.search_view, name="search"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

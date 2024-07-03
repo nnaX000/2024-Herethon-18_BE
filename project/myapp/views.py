@@ -220,3 +220,8 @@ def search_view(request):
     return render(
         request, "home_search.html", {"results": results, "query": search_query}
     )
+
+
+def board_list(request):
+    posts = BoardPost.objects.all()  # 데이터베이스에서 모든 게시물을 가져옴
+    return render(request, "board_list.html", {"posts": posts})
