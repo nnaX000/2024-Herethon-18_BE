@@ -16,6 +16,8 @@ from django.db.models.functions import TruncDate
 from django.db.models.functions import TruncDay
 from django.db.models import Count
 from .models import Comment
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 
 def main(request):
@@ -172,6 +174,7 @@ def grow_1(request):
 # def board_detail(request, post_id):
 #     post = get_object_or_404(BoardPost, id=post_id)
 
+
 #     context = {
 #         "post": post,
 #     }
@@ -182,12 +185,12 @@ def board_detail(request, post_id):
     comments = post.comment_set.all()
     comment_form = CommentForm()
     context = {
-        'post': post,
-        'comments': comments,
-        'comment_form': comment_form,
-        'boardpost': post,  # 이 줄을 추가하여 'boardpost' 변수를 템플릿에 전달
+        "post": post,
+        "comments": comments,
+        "comment_form": comment_form,
+        "boardpost": post,  # 이 줄을 추가하여 'boardpost' 변수를 템플릿에 전달
     }
-    return render(request, 'board_detail.html', context)
+    return render(request, "board_detail.html", context)
 
 
 def map_period(input):
@@ -241,47 +244,50 @@ def board_list(request):
     posts = BoardPost.objects.all()  # 데이터베이스에서 모든 게시물을 가져옴
     return render(request, "board_list.html", {"posts": posts})
 
+
 def mypage_setting(request):
     return render(request, "mypage_setting.html")
 
-def update(request, post_id):
-    if request.method == 'POST':
-        post = BoardPost.objects.get(pk=post_id)  # 예시로 사용할 모델에 맞게 수정해야 합니다.
 
+def update(request, post_id):
+    if request.method == "POST":
+        post = BoardPost.objects.get(
+            pk=post_id
+        )  # 예시로 사용할 모델에 맞게 수정해야 합니다.
 
         # 새로운 데이터 저장
-        post.title = request.POST.get('title')
-        post.content = request.POST.get('content')
-        post.participants = request.POST.get('participants')
-        post.development_period = request.POST.get('development_period')
-        post.language = request.POST.get('language')
+        post.title = request.POST.get("title")
+        post.content = request.POST.get("content")
+        post.participants = request.POST.get("participants")
+        post.development_period = request.POST.get("development_period")
+        post.language = request.POST.get("language")
         post.updated_at = timezone.now()
 
-
         # 파일 업로드 처리 (필요시)
-        if 'file' in request.FILES:
-            file = request.FILES['file']
+        if "file" in request.FILES:
+            file = request.FILES["file"]
             # 파일 처리 로직 추가
 
-        new_language = request.POST.get('language')
+        new_language = request.POST.get("language")
         if new_language:
             post.language = new_language
 
         # 저장
         post.save()
-        return redirect('/detail/' + str(post.id))
+        return redirect("/detail/" + str(post.id))
 
     # GET 요청 처리 (옵션)
     else:
         post = BoardPost.objects.get(pk=post_id)
-        context = {'post': post}
-        return render(request, 'board_update.html', context)
+        context = {"post": post}
+        return render(request, "board_update.html", context)
 
 
 def delete(request, post_id):
     post = BoardPost.objects.get(id=post_id)
     post.delete()
-    return redirect('main') 
+    return redirect("main")
+
 
 @require_POST
 def comment_create(request, pk):
@@ -293,8 +299,9 @@ def comment_create(request, pk):
             comment.boardpost = boardpost
             comment.user = request.user
             comment.save()
-        return redirect('comment_detail', pk=boardpost.pk)
-    return redirect('login')
+        return redirect("comment_detail", pk=boardpost.pk)
+    return redirect("login")
+
 
 @require_POST
 def comment_delete(request, boardpost_pk, comment_pk):
@@ -302,4 +309,9 @@ def comment_delete(request, boardpost_pk, comment_pk):
         comment = get_object_or_404(Comment, pk=comment_pk)
         if request.user == comment.user:
             comment.delete()
-    return redirect('comment_detail', pk=boardpost_pk)
+    return redirect("comment_detail", pk=boardpost_pk)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("main")  # 로그아웃 후 리디렉션 될 페이지
