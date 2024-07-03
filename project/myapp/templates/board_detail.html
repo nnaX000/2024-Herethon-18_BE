@@ -42,9 +42,15 @@
                     <div class="board-detail-info">{{ post.get_development_period_display }}</div>
                     <div class="board-detail-info">{{ post.get_participants_display }}</div>
                 </div>
-                <div id="board-detail2"> <!-- 사용 언어 -->
-                    <div class="board-detail-info">{{ post.get_language_display }}</div>
+                {% load myapp_filters %}
+                <div id="board-detail2">
+                    {% if post.get_language_display %}
+                    {% for language in post.get_language_display|split_string:',' %}
+                        <div class="board-detail-info">{{ language|trim }}</div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
+              
             </div>
             <div class="board-detail-bottom">
                 {% if post.file %}
