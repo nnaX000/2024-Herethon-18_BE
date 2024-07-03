@@ -51,4 +51,7 @@ urlpatterns = [
         name="comment_delete",
     ),
     path("logout/", v.logout_view, name="logout"),
+    path(
+        "detail/<int:post_id>/comment/", v.board_detail, name="comment_create"
+    ),  # 댓글 작성 URL 추가
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

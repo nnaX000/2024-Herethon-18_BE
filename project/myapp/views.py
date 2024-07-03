@@ -5,7 +5,6 @@ from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
-
 from myapp.forms import CommentForm
 from .models import BoardPost
 from django.views.decorators.http import require_POST
@@ -18,6 +17,7 @@ from django.db.models import Count
 from .models import Comment
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from .forms import CommentForm
 
 
 def main(request):
@@ -179,18 +179,6 @@ def grow_1(request):
 #         "post": post,
 #     }
 #     return render(request, "board_detail.html", context)
-@login_required
-def board_detail(request, post_id):
-    post = get_object_or_404(BoardPost, pk=post_id)
-    comments = post.comment_set.all()
-    comment_form = CommentForm()
-    context = {
-        "post": post,
-        "comments": comments,
-        "comment_form": comment_form,
-        "boardpost": post,  # 이 줄을 추가하여 'boardpost' 변수를 템플릿에 전달
-    }
-    return render(request, "board_detail.html", context)
 
 
 def map_period(input):
@@ -315,3 +303,26 @@ def comment_delete(request, boardpost_pk, comment_pk):
 def logout_view(request):
     logout(request)
     return redirect("main")  # 로그아웃 후 리디렉션 될 페이지
+
+
+@login_required
+def board_detail(request, post_id):
+    post = get_object_or_404(BoardPost, pk=post_id)
+    comments = Comment.objects.filter(post=post)
+    comment_form = CommentForm()
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.user = request.user
+            comment.save()
+            return redirect("board_detail", post_id=post.id)
+
+    context = {
+        "post": post,
+        "comments": comments,
+        "comment_form": comment_form,
+    }
+    return render(request, "board_detail.html", context)
