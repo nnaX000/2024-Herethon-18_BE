@@ -36,6 +36,10 @@ urlpatterns = [
     path("grow_1/", v.grow_1, name="grow_1"),
     path("like_post/<int:post_id>/", v.like_post, name="like_post"),
     path("dislike_post/<int:post_id>/", v.dislike_post, name="dislike_post"),
-    path("post/<int:post_id>/", v.board_detail, name="board_detail"),
     path("mypage_share/", v.mypage_share, name="mypage_share"),
+    
+    path("detail/<int:post_id>/", v.board_detail, name="board_detail"),
+    path('detail/<int:post_id>/update/',v.update, name="update"),
+    path('detail/<int:post_id>/delete/',v.delete, name="delete"),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
