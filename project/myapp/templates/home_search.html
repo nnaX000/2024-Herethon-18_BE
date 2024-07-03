@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/home_search.css">
+    <title>home_search</title>
+</head>
+<body>
+<header id="header">
+    <a href="" id="header-logo">ProReflect</a>
+    <nav id="header-nav">
+        <a href="">공유용 게시판</a>
+        <a href="">프로젝트로그</a>
+        <a href="">마이페이지</a>
+    </nav>
+</header>
+<main>
+    <div class="search-container">
+        <img src="../img/board-search.svg" alt="검색창 아이콘">
+        <input type="text" class="board-search" placeholder="검색어를 입력해주세요">
+    </div>
+
+    <!-- 검색어 존재 x-->
+    <div class="search-none">
+        검색어에 관한 결과가 없어요.<br><br>다른 검색어를 입력해주세요.
+    </div>
+    
+    <!-- 검색어 존재 o-->
+    <div class="sort-options">
+        <label id="label-relevance">
+            <input type="radio" name="sort" id="relevance" checked>
+            • 관련도순
+        </label>
+        <label id="label-latest">
+            <input type="radio" name="sort" id="latest">
+            • 최신순
+        </label>
+    </div>
+
+    <div class="project-container" id="project-container-relevance"></div>
+    <div class="project-container" id="project-container-latest" style="display:none;"></div>
+</main>
+<script src="../js/home_search.js"></script>
+</body>
+</html>
