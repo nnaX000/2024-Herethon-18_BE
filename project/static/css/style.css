@@ -1,11 +1,15 @@
 :root {
   --main--green--color: #048271;
-  --light--green--color: #9FCBC9;
-  --main--gray--color: #E6E6E6;
-  --dark--gray--color: #5B5B5B;
+  --main--gray--color: #e6e6e6;
+  --light--green--color: #9fcbc9;
+  --dark--gray--color: #5b5b5b;
 }
 body {
-  background-color: #F2F3F7;
+  background-color: #f2f3f7;
+  font-family: Pretendard;
+}
+button {
+  font-family: Pretendard;
 }
 #header {
   width: 100%;
@@ -30,5 +34,5 @@ body {
 main {
   padding-top: 70px;
   width: 1200px;
-  margin: 0 auto ;
+  margin: 0 auto;
 }

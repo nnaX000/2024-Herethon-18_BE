@@ -20,4 +20,5 @@ urlpatterns = [
     path("dislike_post/<int:post_id>/", views.dislike_post, name="dislike_post"),
     path("post/<int:post_id>/", v.board_detail, name="board_detail"),
     path("mypage_share/", v.mypage_share, name="mypage_share"),
+    path("search/", v.search_view, name="search"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

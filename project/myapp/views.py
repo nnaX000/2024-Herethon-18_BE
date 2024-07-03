@@ -173,3 +173,50 @@ def board_detail(request, post_id):
         "post": post,
     }
     return render(request, "board_detail.html", context)
+
+
+def map_period(input):
+    if input <= 3:
+        return "0-3"
+    elif input <= 7:
+        return "4-7"
+    elif input <= 11:
+        return "8-11"
+    else:
+        return "12+"
+
+
+def map_participants(input):
+    if input <= 6:
+        return "1-6"
+    elif input <= 12:
+        return "7-12"
+    elif input <= 18:
+        return "13-18"
+    else:
+        return "19+"
+
+
+def search_view(request):
+    search_query = request.GET.get("q", "")  # 'q'는 검색창에서 입력한 쿼리를 받습니다.
+    search_criteria = request.GET.get("criteria", "title")
+
+    # 선택한 기준에 따라 BoardPost 객체 필터링
+    if search_criteria == "title":
+        results = BoardPost.objects.filter(title__icontains=search_query)
+    elif search_criteria == "content":
+        results = BoardPost.objects.filter(content__icontains=search_query)
+    elif search_criteria == "language":
+        results = BoardPost.objects.filter(language__icontains=search_query)
+    elif search_criteria == "development_period":
+        mapped_period = map_period(int(search_query))
+        results = BoardPost.objects.filter(development_period=mapped_period)
+    elif search_criteria == "participants":
+        mapped_participants = map_participants(int(search_query))
+        results = BoardPost.objects.filter(participants=mapped_participants)
+    else:
+        results = BoardPost.objects.none()
+
+    return render(
+        request, "home_search.html", {"results": results, "query": search_query}
+    )
