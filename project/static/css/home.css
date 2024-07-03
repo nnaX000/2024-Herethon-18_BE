@@ -1,18 +1,58 @@
 .search-container {
     display: flex;
+    align-items: center;
     padding: 10px;
     gap: 10px;
     border-radius: 10px;
     width: 792px;
-    height: 50px;
     margin: 30px auto;
     background-color: #ffffff;
     transition: box-shadow 0.3s;
+    box-shadow: 0 0 0 2px #9FCBC9;
+    cursor: text; /* 커서를 텍스트 입력 형태로 변경 */
 }
 
-.search-container:focus-within {
-    box-shadow: 0 0 0 2px #9FCBC9;
+.search-container input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 100%; /* `<input>`이 `search-container`의 크기를 모두 차지하도록 설정 */
 }
+
+
+.search-container select {
+    order: 1;
+    background-color: transparent;
+    border: 1px solid #ccc;
+}
+
+.search-container input[type="text"] {
+    order: 2;
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.search-container img {
+    order: 3; /* 돋보기 아이콘의 위치 */
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+input[type="text"] {
+    background-color: #fff; /* 배경색을 흰색으로 설정 */
+    border: 1px solid #ccc; /* 경계선을 은은한 회색으로 설정 */
+    box-shadow: none; /* 그림자 제거 */
+    outline: none; /* 포커스 시 발생하는 외곽선 제거 */
+}
+
+input[type="text"]:focus {
+    box-shadow: none; /* 포커스 상태에서 그림자 제거 */
+    outline: none; /* 포커스 상태에서 외곽선 제거 */
+}
+
 
 .board-search {
     border-radius: 10px;

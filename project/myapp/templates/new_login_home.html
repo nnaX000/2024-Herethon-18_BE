@@ -5,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-<<<<<<< feed
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-=======
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% load static %}
->>>>>>> main
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <title>new_home_login</title>
     <style>
@@ -41,11 +35,7 @@
         <nav id="header-nav">
             <a href="{% url 'board_list' %}">공유용 게시판</a>
             <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">성장관찰</a>
-<<<<<<< feed
             <a href="{% if user.is_authenticated %}{% url 'mypage_setting' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
-=======
-            <a href="{% if user.is_authenticated %}{% url 'mypage_share' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
->>>>>>> main
         </nav>
     </header>
     
@@ -91,7 +81,6 @@
         </section>
     </main>
 
-    {% load static %}
-        <script src="{% static 'js/home.js' %}"></script>
+    <script src="/js/home.js"></script>
 </body>
 </html>

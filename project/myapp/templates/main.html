@@ -44,20 +44,26 @@
 </head>
 <body>
     <header id="header">
-        <a href="" id="header-logo">ProReflect</a>
+        <a href="{% url 'main' %}" id="header-logo">ProReflect</a>
         <nav id="header-nav">
             <a href="{% url 'board_list' %}">공유용 게시판</a>
             <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">성장관찰</a>
-            <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
+            <a href="{% if user.is_authenticated %}{% url 'mypage_setting' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
+            <a href="{% url 'logout' %}">로그아웃</a>
         </nav>
     </header>
     
     <main>
-        <div class="search-container" style="text-align: center;">
-            <img src="{% static 'img/board-search.svg' %}" alt="검색창 아이콘">
-            <input type="text" class="board-search" placeholder="검색어를 입력해주세요" style="display: inline-block;">
-        </div>
-        
+        <div class="search-container" onclick="focusInput(event);">
+            <select id="search-criteria">
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+                <option value="language">개발 스택</option>
+                <option value="development_period">개발 기간</option>
+                <option value="participants">참여 인원</option>
+            </select>
+            <input type="text" id="search-input" placeholder="검색어를 입력해주세요" style="flex: 1; border: none; outline: none; background-color: transparent;">
+        </div>                          
         <div class="recommendation">
             {% if user.is_authenticated %}
                 <span class="username">{{ user.username }}</span> 님을 위한 추천
@@ -124,43 +130,27 @@
         {% endfor %}
     </div>
 </section>
-
-
-        <section class="project-section">
-            <h2>사람들이 많이 본 프로젝트</h2>
-            <div class="project-container" id="most-viewed-projects">
-                {% for post in most_viewed_posts %}
-                    <div class="project-box">
-                        {% if post.file %}
-                            <img src="{{ post.file.url }}" alt="프로젝트 이미지">
-                        {% else %}
-                            <img src="{% static 'img/person.png' %}" alt="프로젝트 이미지">
-                        {% endif %}
-                        <div class="project-title">{{ post.title }}</div>
-                        <div class="project-content">{{ post.content }}</div>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
-
-        <section class="project-section">
-            <h2>인기 있는 프로젝트</h2>
-            <div class="project-container" id="popular-projects">
-                {% for post in popular_posts %}
-                    <div class="project-box">
-                        {% if post.file %}
-                            <img src="{{ post.file.url }}" alt="프로젝트 이미지">
-                        {% else %}
-                            <img src="{% static 'img/person.png' %}" alt="프로젝트 이미지">
-                        {% endif %}
-                        <div class="project-title">{{ post.title }}</div>
-                        <div class="project-content">{{ post.content }}</div>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
     </main>
     {% load static %}
     <script src="{% static 'js/home.js' %}"></script>
+    <script>
+        document.getElementById('search-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        window.location.href = `/search?criteria=${document.getElementById('search-criteria').value}&q=${this.value}`;
+    }
+});
+
+function focusInput(event) {
+    // 드롭다운을 클릭했을 경우 이벤트 전파를 멈춥니다.
+    if (event.target.tagName === 'SELECT') {
+        event.stopPropagation();
+    } else {
+        // 드롭다운이 아닌 경우에만 input에 포커스를 맞춥니다.
+        document.getElementById('search-input').focus();
+    }
+}
+
+    </script>
 </body>
 </html>

@@ -41,12 +41,19 @@ urlpatterns = [
     path("mypage_share/", v.mypage_share, name="mypage_share"),
     path("search/", v.search_view, name="search"),
     path("mypage/", v.mypage_setting, name="mypage_setting"),
-    
     path("detail/<int:post_id>/", v.board_detail, name="board_detail"),
-    path('detail/<int:post_id>/update/',v.update, name="update"),
-    path('detail/<int:post_id>/delete/',v.delete, name="delete"),
-    
-    path('<int:pk>/comment/', v.comment_create, name='comment_create'),
-    path('<int:article_pk>/comment/<int:comment_pk>/delete/', v.comment_delete, name='comment_delete'),
-
+    path("detail/<int:post_id>/update/", v.update, name="update"),
+    path("detail/<int:post_id>/delete/", v.delete, name="delete"),
+    path("<int:pk>/comment/", v.comment_create, name="comment_create"),
+    path(
+        "<int:article_pk>/comment/<int:comment_pk>/delete/",
+        v.comment_delete,
+        name="comment_delete",
+    ),
+    path("logout/", v.logout_view, name="logout"),
+    path(
+        "detail/<int:post_id>/comment/", v.board_detail, name="comment_create"
+    ),  # 댓글 작성 URL 추가
+    path("grow_2/<int:post_id>/", v.grow_2, name="grow_2"),
+    path("save_reflection/<int:post_id>/", v.save_reflection, name="save_reflection"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

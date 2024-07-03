@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/grow_2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/board_detail.css' %}">
+    <title>ProReflect</title>
+</head>
+<body>
+    <header id="header">
+        <a href="{% url 'main' %}" id="header-logo">ProReflect</a>
+        <nav id="header-nav">
+            <a href="{% url 'board_list' %}">공유용 게시판</a>
+            <a href="{% url 'grow_1' %}">성장 관찰</a>
+            <a href="{% url 'mypage_setting' %}">마이페이지</a>
+        </nav>
+    </header>
+    <main>
+        <a href="{% url 'main' %}">
+            <img src="{% static 'img/back-button.svg' %}" alt="뒤로가기 아이콘" class="back-btn-icon">
+        </a>
+        <div class="Big-container">
+            <div class="content-container">
+                <h1 class="title-container">Title: {{ post.title }}</h1>
+                <h1 class="Username-container">Username: {{ post.user.username }}</h1>
+                <div class="otherusers-container">
+                    <!-- 참여한 친구들 표시 (필요한 경우 동적으로 추가) -->
+                </div>
+                <div class="black1-container">
+                    <h1 class="period-container">{{ post.get_development_period_display }}</h1>
+                    <h1 class="people-container">{{ post.get_participants_display }}</h1>
+                </div>
+                {% load myapp_filters %}
+                <div id="board-detail2">
+                    {% if post.get_language_display %}
+                    {% for language in post.get_language_display|split_string:',' %}
+                        <div class="board-detail-info">{{ language|trim }}</div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="img-container">
+                    {% if post.file %}
+                        <img src="{{ post.file.url }}" alt="{{ post.title }}의 이미지">
+                    {% else %}
+                        <img src="{% static 'img/default_project_image.png' %}" alt="기본 이미지">
+                    {% endif %}
+                </div>
+                <div class="explain-container">{{ post.content }}</div>
+            </div>
+
+            <div class="proreflect-container">
+                <h1 class="proTitle-container">ProReflect 작성</h1>
+                <form action="{% url 'save_reflection' post.id %}" method="post">
+                    {% csrf_token %}
+                    <textarea name="reflection_content" class="reflecttext-container" placeholder="회고 내용을 입력하세요..."></textarea>
+                    <button type="submit" class="proreflect">
+                        <h1 class="text-container">ProReflect 게시</h1>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
