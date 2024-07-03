@@ -1,0 +1,71 @@
+.form-container {
+    justify-content: space-between;
+    width: 792px;
+    height: 430px;
+    padding: 60px;
+}
+.setting-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.setting-container:nth-child(1) {
+    height: 50px;
+}
+.setting-box-ment {
+    color: #ffffff;
+    background-color: var(--light--green--color);
+    font-size: 24px;
+    font-weight: bold;
+}
+.setting-box-password {
+    background-color: #F2F3F7;
+    border: 2px solid var(--main--green--color);
+    border-radius: 5px;
+    width: 340px;
+    height: 50px;
+    font-size: 20px;
+}
+.setting-box-password::placeholder {
+    color: #D5D5D5;
+    font-size: 20px;
+    font-family: Pretendard;
+}
+#accout-delete-btn {
+    width: 130px;
+    height: 50px;
+    background-color: var(--main--green--color);
+    color: #ffffff;
+    font-size: 24px;
+    border-radius: 10px;
+    margin: 0 0 0 auto;
+    line-height: 40px;
+    font-weight: bold;
+}
+.setting-toggle-container {
+    width: 145px;
+    height: 40px;
+    border-radius: 20px;
+    border: 2px solid var(--main--green--color);
+    cursor: pointer;
+    position: relative;
+}
+.on .setting-toggle-btn {
+    background-color: var(--main--green--color);
+    color: #ffffff;
+}
+.setting-toggle-btn {
+    width: 87.4px;
+    height: 40px;
+    border-radius: 20px;
+    border: 2px solid var(--main--green--color);
+    color: var(--main--green--color);
+    background-color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 36px;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+}

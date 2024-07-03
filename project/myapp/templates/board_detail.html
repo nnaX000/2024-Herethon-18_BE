@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/board_detail.css' %}">
     <title>ProReflect</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,7 +18,7 @@
         <nav id="header-nav">
             <a href="{% url 'board_list' %}">공유용 게시판</a>
             <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">성장관찰</a>
-            <a href="{% if user.is_authenticated %}{% url 'mypage_share' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
+            <a href="{% if user.is_authenticated %}{% url 'mypage_setting' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
         </nav>
     </header>
     <main>
@@ -32,8 +34,8 @@
                 </div>
                 <div id="board-detail-btns">
                     {% if request.user == post.user %}
-                        <button id="board-detail-update">수정하기</button>
-                        <button id="board-detail-delete">삭제하기</button>
+                    <a href="{% url 'update' post.id %}">수정</a>
+                    <a href="{% url 'delete' post.id %}">삭제</a>
                     {% endif %}
                 </div>
             </div>
@@ -50,7 +52,7 @@
                     {% endfor %}
                     {% endif %}
                 </div>
-              
+                
             </div>
             <div class="board-detail-bottom">
                 {% if post.file %}
@@ -74,8 +76,48 @@
                 </div>
             </div>            
         </div>
-        <div class="board-detail-comment-container"> <!-- 댓글 -->
+        <div class="board-detail-comment-container" style="center;"> <!-- 댓글 -->
             <!-- 댓글 로직은 필요에 따라 추가 -->
+                    <!-- 댓글 로직은 필요에 따라 추가 -->
+                    <h4>댓글 목록</h4>
+                    
+                    <!--read-->
+                    {% if comment %}
+                        <p><b>{{ comment|length }}개의 댓글이 있습니다.</b></p>
+                    {% endif %}
+                    <ul>
+                        {% for comment in comment %}
+                            <li>
+                                {{ comment.user }} - {{ comment.content }}
+                                <!--delete-->
+                                {% if user == comment.user %}
+                                    <form action="{% url 'comment_delete' boardpost.pk comment.pk %}" method="POST" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="submit" value="DELETE">
+                                    </form>
+                                {% endif %}
+                            </li>
+                        {% empty %}
+                            <p>댓글이 없어요.</p>
+                        {% endfor %}
+                    </ul>
+                    
+                    <hr>
+                    
+                    <!--create-->
+                    {% if request.user.is_authenticated %}
+                        <form action="{% url 'comment_create' boardpost.pk %}" method="POST">
+                            {% csrf_token %}
+                            {{ comment_form }}
+                            <input type="submit">
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}">[댓글을 작성하려면 로그인하세요.]</a>
+                    {% endif %}
+                </div>
+                
+            
+            
         </div>
     </main>
     <script>

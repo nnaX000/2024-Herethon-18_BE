@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProReflect - 수정하기</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/board_create.css' %}">
-    <title>ProReflect</title>
 </head>
 <body>
 <header id="header">
@@ -15,22 +17,26 @@
     <nav id="header-nav">
         <a href="{% url 'board_list' %}">공유용 게시판</a>
         <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">성장관찰</a>
-        <a href="{% if user.is_authenticated %}{% url 'mypage_setting' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
+        <a href="{% if user.is_authenticated %}{% url 'mypage_share' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
     </nav>
 </header>
 <main>
-    <form action="{% url 'board_create' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'update' post.id %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <h1 id="board-create-title">Reflect 작성</h1>
+        <h1 id="board-create-title">Reflect 수정
+            <button class="back-icon-btn" onclick="history.back()">
+                <img src="{% static 'img/back-button.svg' %}" alt="뒤로가기 아이콘">
+            </button>
+        </h1>
         <div id="board-create-top">
-            <input type="text" id="board-create-post-title" name="title" placeholder="제목을 입력해 주세요.">      
-            <button class="board-post-btn">Reflect 게시</button>
+            <input type="text" id="board-create-post-title" name="title" placeholder="제목을 입력해 주세요." value="{{ post.title }}">      
+            <button class="board-post-btn">Reflect 수정</button>
         </div>
         <div id="board-create-content">
-            <textarea id="board-create-content-detail" name="content" placeholder="프로젝트의 목적, 개발 스택, 배포 링크, 깃허브 주소 등 개발했던 프로젝트와 관련된 이야기를 써주세요. 같이 프로젝트에 참여한 사람을 @멘션 해보세요!"></textarea>
-            <input type="hidden" name="participants" id="participants_input">
-            <input type="hidden" name="development_period" id="development_period_input">
-            <input type="hidden" name="language" id="language_input">
+            <textarea id="board-create-content-detail" name="content" placeholder="프로젝트의 목적, 개발 스택, 배포 링크, 깃허브 주소 등 개발했던 프로젝트와 관련된 이야기를 써주세요. 같이 프로젝트에 참여한 사람을 @멘션 해보세요!">{{ post.content }}</textarea>
+            <input type="hidden" name="participants" id="participants_input" value="{{ post.participants }}">
+            <input type="hidden" name="development_period" id="development_period_input" value="{{ post.development_period }}">
+            <input type="hidden" name="language" id="language_input" value="{{ post.language }}">
             <input type="file" name="file" id="board-file-input" style="display:none;">
             <div id="board-create-setting-box">
                 <!-- 개발 기간 드롭다운 -->
@@ -40,10 +46,10 @@
                         <img src="{% static 'img/inverted-triangle.svg' %}" alt="드롭다운 아이콘" class="board-create-dropdown-img">
                     </button>
                     <div class="board-create-dropdown-content">
-                        <a href="#" onclick="selectOption('0-3', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()">0~3개월</a>
-                        <a href="#" onclick="selectOption('4-7', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()">4~7개월</a>
-                        <a href="#" onclick="selectOption('8-11', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()">8~11개월</a>
-                        <a href="#" onclick="selectOption('12+', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()">12개월 이상</a>
+                        <a href="#" onclick="selectOption('0-3', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()" {% if post.development_period == '0-3' %} class="selected" {% endif %}>0~3개월</a>
+                        <a href="#" onclick="selectOption('4-7', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()" {% if post.development_period == '4-7' %} class="selected" {% endif %}>4~7개월</a>
+                        <a href="#" onclick="selectOption('8-11', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()" {% if post.development_period == '8-11' %} class="selected" {% endif %}>8~11개월</a>
+                        <a href="#" onclick="selectOption('12+', 'development_period_input', '.board-create-dropdown-btn'); event.preventDefault()" {% if post.development_period == '12+' %} class="selected" {% endif %}>12개월 이상</a>
                     </div>                    
                 </div>
 
@@ -54,10 +60,10 @@
                         <img src="{% static 'img/inverted-triangle.svg' %}" alt="드롭다운 아이콘" class="board-create-dropdown-img">
                     </button>
                     <div class="board-create-dropdown-content2">
-                        <a href="#" onclick="selectOption('1-6', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()">1~6명</a>
-                        <a href="#" onclick="selectOption('7-12', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()">7~12명</a>
-                        <a href="#" onclick="selectOption('13-18', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()">13~18명</a>
-                        <a href="#" onclick="selectOption('19+', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()">19명 이상</a>
+                        <a href="#" onclick="selectOption('1-6', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()" {% if post.participants == '1-6' %} class="selected" {% endif %}>1~6명</a>
+                        <a href="#" onclick="selectOption('7-12', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()" {% if post.participants == '7-12' %} class="selected" {% endif %}>7~12명</a>
+                        <a href="#" onclick="selectOption('13-18', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()" {% if post.participants == '13-18' %} class="selected" {% endif %}>13~18명</a>
+                        <a href="#" onclick="selectOption('19+', 'participants_input', '.board-create-dropdown-btn2'); event.preventDefault()" {% if post.participants == '19+' %} class="selected" {% endif %}>19명 이상</a>
                     </div>                    
                 </div>
 
@@ -78,12 +84,10 @@
                         <a href="#" onclick="selectLanguage('css'); event.preventDefault()">CSS</a>
                         <a href="#" onclick="selectLanguage('c++'); event.preventDefault()">C++</a>
                         <a href="#" onclick="selectLanguage('other'); event.preventDefault()">직접 입력</a>
-                    </div>                    
+                    </div>                   
                 </div>
                 
-                <!-- 사용 언어 추가될 부분 -->
-                <div id="board-create-selected-languages"></div>
-
+            
                 <!-- 파일 첨부 -->
                 <div id="board-file-display"></div>
                 <div class="board-create-img" onclick="boardFileInput()">
@@ -95,7 +99,7 @@
         </div>
     </form>
 </main>
-    {% load static %}
-    <script src="{% static 'js/board_create.js' %}"></script>
+{% load static %}
+<script src="{% static 'js/board_create.js' %}"></script>
 </body>
 </html>

@@ -5,6 +5,8 @@ from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
+
+from myapp.forms import CommentForm
 from .models import BoardPost
 from django.views.decorators.http import require_POST
 import json
@@ -13,6 +15,7 @@ from datetime import timedelta
 from django.db.models.functions import TruncDate
 from django.db.models.functions import TruncDay
 from django.db.models import Count
+from .models import Comment
 
 
 def main(request):
@@ -165,14 +168,26 @@ def grow_1(request):
     return render(request, "grow_1.html", context)
 
 
+# @login_required
+# def board_detail(request, post_id):
+#     post = get_object_or_404(BoardPost, id=post_id)
+
+#     context = {
+#         "post": post,
+#     }
+#     return render(request, "board_detail.html", context)
 @login_required
 def board_detail(request, post_id):
-    post = get_object_or_404(BoardPost, id=post_id)
-
+    post = get_object_or_404(BoardPost, pk=post_id)
+    comments = post.comment_set.all()
+    comment_form = CommentForm()
     context = {
-        "post": post,
+        'post': post,
+        'comments': comments,
+        'comment_form': comment_form,
+        'boardpost': post,  # 이 줄을 추가하여 'boardpost' 변수를 템플릿에 전달
     }
-    return render(request, "board_detail.html", context)
+    return render(request, 'board_detail.html', context)
 
 
 def map_period(input):
@@ -225,3 +240,66 @@ def search_view(request):
 def board_list(request):
     posts = BoardPost.objects.all()  # 데이터베이스에서 모든 게시물을 가져옴
     return render(request, "board_list.html", {"posts": posts})
+
+def mypage_setting(request):
+    return render(request, "mypage_setting.html")
+
+def update(request, post_id):
+    if request.method == 'POST':
+        post = BoardPost.objects.get(pk=post_id)  # 예시로 사용할 모델에 맞게 수정해야 합니다.
+
+
+        # 새로운 데이터 저장
+        post.title = request.POST.get('title')
+        post.content = request.POST.get('content')
+        post.participants = request.POST.get('participants')
+        post.development_period = request.POST.get('development_period')
+        post.language = request.POST.get('language')
+        post.updated_at = timezone.now()
+
+
+        # 파일 업로드 처리 (필요시)
+        if 'file' in request.FILES:
+            file = request.FILES['file']
+            # 파일 처리 로직 추가
+
+        new_language = request.POST.get('language')
+        if new_language:
+            post.language = new_language
+
+        # 저장
+        post.save()
+        return redirect('/detail/' + str(post.id))
+
+    # GET 요청 처리 (옵션)
+    else:
+        post = BoardPost.objects.get(pk=post_id)
+        context = {'post': post}
+        return render(request, 'board_update.html', context)
+
+
+def delete(request, post_id):
+    post = BoardPost.objects.get(id=post_id)
+    post.delete()
+    return redirect('main') 
+
+@require_POST
+def comment_create(request, pk):
+    if request.user.is_authenticated:
+        boardpost = get_object_or_404(BoardPost, pk=pk)
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.boardpost = boardpost
+            comment.user = request.user
+            comment.save()
+        return redirect('comment_detail', pk=boardpost.pk)
+    return redirect('login')
+
+@require_POST
+def comment_delete(request, boardpost_pk, comment_pk):
+    if request.user.is_authenticated:
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        if request.user == comment.user:
+            comment.delete()
+    return redirect('comment_detail', pk=boardpost_pk)
