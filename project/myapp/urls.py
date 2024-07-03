@@ -19,8 +19,13 @@ urlpatterns = [
     path("like_post/<int:post_id>/", views.like_post, name="like_post"),
     path("dislike_post/<int:post_id>/", views.dislike_post, name="dislike_post"),
     path("mypage_share/", v.mypage_share, name="mypage_share"),
+    path("search/", v.search_view, name="search"),
+    path("mypage/", v.mypage_setting, name="mypage_setting"),
     
     path("detail/<int:post_id>/", v.board_detail, name="board_detail"),
     path('detail/<int:post_id>/update/',v.update, name="update"),
     path('detail/<int:post_id>/delete/',v.delete, name="delete"),
+    
+    path('<int:pk>/comment/', v.comment_create, name='comment_create'),
+    path('<int:article_pk>/comment/<int:comment_pk>/delete/', v.comment_delete, name='comment_delete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
