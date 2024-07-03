@@ -6,9 +6,17 @@ from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
+
+from myapp.forms import CommentForm
 from .models import BoardPost
 from django.views.decorators.http import require_POST
 import json
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models.functions import TruncDate
+from django.db.models.functions import TruncDay
+from django.db.models import Count
+from .models import Comment
 
 
 def main(request):
@@ -136,62 +144,107 @@ def board_list(request):
 
 @login_required
 def grow_1(request):
-    user = request.user
-    user_posts = BoardPost.objects.filter(user=user)
-    total_posts = user_posts.count()
-    
-    # Sum the count of likes for each post
+    user_posts = BoardPost.objects.filter(user=request.user)
     total_likes = sum(post.likes.count() for post in user_posts)
+    total_posts = user_posts.count()
+
+    # 날짜별 좋아요 수 집계
+    likes_data = (
+        BoardPost.objects.filter(user=request.user)
+        .annotate(date=TruncDay("created_at"))
+        .values("date")
+        .annotate(likes_count=Count("likes"))
+        .order_by("date")
+    )
+
+    dates = [data["date"].strftime("%Y-%m-%d") for data in likes_data]
+    like_counts = [data["likes_count"] for data in likes_data]
 
     context = {
-        "total_posts": total_posts,
         "total_likes": total_likes,
+        "total_posts": total_posts,
         "user_posts": user_posts,
+        "dates": dates,
+        "like_counts": like_counts,
     }
     return render(request, "grow_1.html", context)
 
 
+# @login_required
+# def board_detail(request, post_id):
+#     post = get_object_or_404(BoardPost, id=post_id)
+
+#     context = {
+#         "post": post,
+#     }
+#     return render(request, "board_detail.html", context)
 @login_required
 def board_detail(request, post_id):
-    post = get_object_or_404(BoardPost, id=post_id)
-
+    post = get_object_or_404(BoardPost, pk=post_id)
+    comments = post.comment_set.all()
+    comment_form = CommentForm()
     context = {
-        "post": post,
+        'post': post,
+        'comments': comments,
+        'comment_form': comment_form,
+        'boardpost': post,  # 이 줄을 추가하여 'boardpost' 변수를 템플릿에 전달
     }
-    return render(request, "board_detail.html", context)
+    return render(request, 'board_detail.html', context)
 
-from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import timezone
-from .models import BoardPost  
 
-# @login_required
-# def update(request, post_id):
-#     post = get_object_or_404(BoardPost, id=post_id)
-    
-#     if request.method == "POST":
-#         post.title = request.POST['title']
-#         post.content = request.POST['content']
-#         post.development_period=request.POST['development_period']
-#         post.participants=request.POST['participants']
-#         post.language=request.POST['language']
-#         post.updated_at = timezone.now()
-        
-#         # Handle image upload
-#         try:
-#             post.file = request.FILES['file']
-#         except KeyError:
-#             pass  
-        
-#         post.save()
-        
-#         # Redirect to the post detail page
-#         return redirect('/detail/' + str(post.id))
-    
-#     # Render the update form for GET requests
-#     context = {
-#         'post': post,
-#     }
-#     return render(request, 'board_update.html', context)
+def map_period(input):
+    if input <= 3:
+        return "0-3"
+    elif input <= 7:
+        return "4-7"
+    elif input <= 11:
+        return "8-11"
+    else:
+        return "12+"
+
+
+def map_participants(input):
+    if input <= 6:
+        return "1-6"
+    elif input <= 12:
+        return "7-12"
+    elif input <= 18:
+        return "13-18"
+    else:
+        return "19+"
+
+
+def search_view(request):
+    search_query = request.GET.get("q", "")  # 'q'는 검색창에서 입력한 쿼리를 받습니다.
+    search_criteria = request.GET.get("criteria", "title")
+
+    # 선택한 기준에 따라 BoardPost 객체 필터링
+    if search_criteria == "title":
+        results = BoardPost.objects.filter(title__icontains=search_query)
+    elif search_criteria == "content":
+        results = BoardPost.objects.filter(content__icontains=search_query)
+    elif search_criteria == "language":
+        results = BoardPost.objects.filter(language__icontains=search_query)
+    elif search_criteria == "development_period":
+        mapped_period = map_period(int(search_query))
+        results = BoardPost.objects.filter(development_period=mapped_period)
+    elif search_criteria == "participants":
+        mapped_participants = map_participants(int(search_query))
+        results = BoardPost.objects.filter(participants=mapped_participants)
+    else:
+        results = BoardPost.objects.none()
+
+    return render(
+        request, "home_search.html", {"results": results, "query": search_query}
+    )
+
+
+def board_list(request):
+    posts = BoardPost.objects.all()  # 데이터베이스에서 모든 게시물을 가져옴
+    return render(request, "board_list.html", {"posts": posts})
+
+def mypage_setting(request):
+    return render(request, "mypage_setting.html")
 
 def update(request, post_id):
     if request.method == 'POST':
@@ -205,13 +258,11 @@ def update(request, post_id):
         post.development_period = request.POST.get('development_period')
         post.language = request.POST.get('language')
         post.updated_at = timezone.now()
-        
 
         # 파일 업로드 처리 (필요시)
         if 'file' in request.FILES:
             file = request.FILES['file']
             # 파일 처리 로직 추가
-        
         new_language = request.POST.get('language')
         if new_language:
             post.language = new_language
@@ -231,3 +282,24 @@ def delete(request, post_id):
     post = BoardPost.objects.get(id=post_id)
     post.delete()
     return redirect('main') 
+
+@require_POST
+def comment_create(request, pk):
+    if request.user.is_authenticated:
+        boardpost = get_object_or_404(BoardPost, pk=pk)
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.boardpost = boardpost
+            comment.user = request.user
+            comment.save()
+        return redirect('comment_detail', pk=boardpost.pk)
+    return redirect('login')
+
+@require_POST
+def comment_delete(request, boardpost_pk, comment_pk):
+    if request.user.is_authenticated:
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        if request.user == comment.user:
+            comment.delete()
+    return redirect('comment_detail', pk=boardpost_pk)

@@ -6,46 +6,122 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/home_search.css' %}">
-    <title>home_search</title>
+    <link rel="stylesheet" href="{% static 'css/grow_1.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>ProReflect</title>
 </head>
 <body>
-<header id="header">
-    <a href="" id="header-logo">ProReflect</a>
-    <nav id="header-nav">
-        <a href="">공유용 게시판</a>
-        <a href="">회고용 게시판</a>
-        <a href="">프로젝트로그</a>
-        <a href="">마이페이지</a>
-    </nav>
-</header>
-<main>
-    <div class="search-container">
-        <img src="{% static 'img/board-search.svg' %}" alt="검색창 아이콘">
-        <input type="text" class="board-search" placeholder="검색어를 입력해주세요">
-    </div>
+    <header id="header">
+        <a href="{% url 'main' %}" id="header-logo">ProReflect</a>
+        <nav id="header-nav">
+            <a href="{% url 'board_list' %}">공유용 게시판</a>
+            <a href="{% if user.is_authenticated %}{% url 'grow_1' %}{% else %}{% url 'login' %}{% endif %}">성장관찰</a>
+            <a href="{% if user.is_authenticated %}{% url 'mypage_setting' %}{% else %}{% url 'login' %}{% endif %}">마이페이지</a>
+        </nav>
+    </header>
+    <main>
+        <div class="Big-container">
+            <div class="post-container">
+                <h1 class="text1-container">총 포스트</h1>
+                <h1 class="score-container">{{ total_posts }}</h1>
+                <h1 class="unit-container">개</h1>
+                <h1 class="text2-container">를 올렸어요!</h1>
+            </div>
 
-    <!-- 검색어 존재 x-->
-    <div class="search-none">
-        검색어에 관한 결과가 없어요.<br><br>다른 검색어를 입력해주세요.
-    </div>
-    
-    <!-- 검색어 존재 o-->
-    <div class="sort-options">
-        <label id="label-relevance">
-            <input type="radio" name="sort" id="relevance" checked>
-            • 관련도순
-        </label>
-        <label id="label-latest">
-            <input type="radio" name="sort" id="latest">
-            • 최신순
-        </label>
-    </div>
+            <div class="user-container">
+                <h1 class="text3-container">사용자</h1>
+                <h1 class="score2-container">{{ total_likes }}</h1>
+                <h1 class="unit2-container">명</h1>
+                <h1 class="text4-container">이 좋아했어요!</h1>
+            </div>
+        </div>
 
-    <div class="project-container" id="project-container-relevance"></div>
-    <div class="project-container" id="project-container-latest" style="display:none;"></div>
-</main>
-    {% load static %}
-    <script src="{% static 'js/home_search.js' %}"></script>
+        <div class="graph-container">
+            <canvas id="likesGraph"></canvas>
+        </div>
+        
+        <div class="project-container">
+            <h1 class="text5-container">지금까지의 프로젝트</h1>
+            {% for post in user_posts %}
+            <div class="project-container">
+                <div class="project-details">
+                    <div class="project-image">
+                        {% if post.file %}
+                            <img src="{{ post.file.url }}" alt="{{ post.title }}의 이미지">
+                        {% else %}
+                            <img src="{% static 'default_image_path.jpg' %}" alt="기본 이미지">
+                        {% endif %}
+                    </div>
+                    <div class="project-content">
+                        <h2>{{ post.title }}</h2>
+                        <p>{{ post.content }}</p>
+                        <div class="project-metadata">
+                            <span>좋아요 {{ post.likes.count }} · 댓글 {{ post.dislikes.count }}</span>
+                            <span>{{ post.created_at|date:"Y.m.d" }}</span>
+                        </div>
+                        <button class="view-project">회고하러 가기</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <script type="application/json" id="dates">{{ dates|json_script:"dates" }}</script>
+    <script type="application/json" id="like_counts">{{ like_counts|json_script:"like_counts" }}</script>
+
+    <script>
+        console.log('dates:', document.getElementById('dates').textContent);
+        console.log('like_counts:', document.getElementById('like_counts').textContent);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var datesJson = document.getElementById('dates').textContent;
+            var likeCountsJson = document.getElementById('like_counts').textContent;
+
+            console.log('datesJson:', datesJson);
+            console.log('likeCountsJson:', likeCountsJson);
+
+            try {
+                // JSON 데이터 추출
+                var dates = JSON.parse(datesJson.slice(datesJson.indexOf('['), datesJson.lastIndexOf(']') + 1));
+                var likeCounts = JSON.parse(likeCountsJson.slice(likeCountsJson.indexOf('['), likeCountsJson.lastIndexOf(']') + 1));
+
+                console.log('dates:', dates);
+                console.log('likeCounts:', likeCounts);
+
+                var ctx = document.getElementById('likesGraph').getContext('2d');
+                var likesGraph = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: '일별 좋아요 수',
+                            data: likeCounts,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 3,  // 선의 두께를 3으로 설정
+                            pointRadius: 5, // 데이터 포인트의 반경을 5로 설정
+                            pointBackgroundColor: 'rgba(255, 99, 132, 1)', // 데이터 포인트의 배경 색상
+                            pointBorderColor: '#fff' // 데이터 포인트의 테두리 색상
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        elements: {
+                            line: {
+                                tension: 0.3 // 선의 곡선 정도 (0은 직선)
+                            }
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('JSON parse error:', e);
+            }
+        });
+    </script>    
 </body>
 </html>

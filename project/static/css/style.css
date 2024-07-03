@@ -6,6 +6,10 @@
 }
 body {
   background-color: #f2f3f7;
+  font-family: Pretendard;
+}
+button {
+  font-family: Pretendard;
 }
 #header {
   width: 100%;
