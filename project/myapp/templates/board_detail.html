@@ -125,7 +125,7 @@
         <!-- 댓글 섹션 -->
         <section class="comments">
             <h2>댓글</h2>
-            {% for comment in comments %}
+            {% for comment in comment %}
             <div class="comment">
                 <strong>{{ comment.user.username }}</strong>
                 <p>{{ comment.content }}</p>

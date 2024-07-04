@@ -287,7 +287,7 @@ def comment_create(request, pk):
             comment.boardpost = boardpost
             comment.user = request.user
             comment.save()
-        return redirect("comment_detail", pk=boardpost.pk)
+        return redirect("board_detail", pk=boardpost.pk)
     return redirect("login")
 
 
@@ -297,7 +297,7 @@ def comment_delete(request, boardpost_pk, comment_pk):
         comment = get_object_or_404(Comment, pk=comment_pk)
         if request.user == comment.user:
             comment.delete()
-    return redirect("comment_detail", pk=boardpost_pk)
+    return redirect("board_detail", pk=boardpost_pk)
 
 
 def logout_view(request):
