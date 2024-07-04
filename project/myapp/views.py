@@ -77,6 +77,10 @@ def grow_1(request):
     return render(request, "grow_1.html")
 
 
+@login_required
+def grow_3(request, reflection_id):
+    reflection = get_object_or_404(Reflection, id=reflection_id, user=request.user)
+    return render(request, "grow_3.html", {"reflection": reflection})
 
 
 def mypage_share(request):
@@ -346,8 +350,15 @@ def save_reflection(request, post_id):
                 user=request.user, post=post, content=content
             )
             reflection.save()
-            return redirect("grow_1")
+            # 이 부분에서 reflection.id를 URL에 포함시켜야 합니다.
+            return redirect("grow_3", reflection_id=reflection.id)
     return render(request, "grow_2.html", {"post": post})
+
+
+@login_required
+def view_reflection(request, reflection_id):
+    reflections = Reflection.objects.filter(user=request.user)
+    return render(request, "view_reflection.html", {"reflection": reflection})
 
 
 # views.py
@@ -356,18 +367,43 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
 
+
 def login_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = LoginForm(request, request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 # 로그인 성공 시 리다이렉트할 URL 설정
-                return redirect('main')  # main 페이지로 리다이렉트
+                return redirect("main")  # main 페이지로 리다이렉트
     else:
         form = LoginForm()
 
-    return render(request, 'login.html', {'form': form})
+    return render(request, "login.html", {"form": form})
+
+
+@login_required
+def edit_reflection(request, reflection_id):
+    reflection = get_object_or_404(Reflection, pk=reflection_id, user=request.user)
+    if request.method == "POST":
+        form = ReflectionForm(request.POST, instance=reflection)
+        if form.is_valid():
+            form.save()
+            return redirect("grow_3")
+    else:
+        form = ReflectionForm(instance=reflection)
+    return render(request, "edit_reflection.html", {"form": form})
+
+
+@login_required
+def delete_reflection(request, reflection_id):
+    reflection = get_object_or_404(Reflection, pk=reflection_id, user=request.user)
+    if request.method == "POST":
+        reflection.delete()
+        return redirect(
+            "some_view_name"
+        )  # Redirect to a confirmation page or the main page
+    return render(request, "confirm_delete.html", {"reflection": reflection})

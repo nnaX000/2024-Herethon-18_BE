@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/grow_2.css' %}">
     <title>ProReflect</title>
-  </head>
-  <body>
+</head>
+<body>
     <header id="header">
         <a href="{% url 'main' %}" id="header-logo">ProReflect</a>
         <nav id="header-nav">
@@ -25,44 +23,46 @@
             <img src="{% static 'img/back-button.svg' %}" alt="뒤로가기 아이콘" class="back-btn-icon">
         </a>
 
-      <div class="Big-container">
-        <div class="content-container">
-          <h1 class="title-container">Title:</h1>
-          <h1 class="Username-container">Username</h1>
-          <div class="otherusers-container">
-            <h1 class="otheruser-container">@other_user</h1>
-            <h1 class="longname-container">@other_user_with_a_long_name</h1>
-            <h1 class="otheruser1-container">@other_user1</h1>
-            <h1 class="otheruser2-container">@2nd_user</h1>
-          </div>
-          <div class="black1-container">
-            <h1 class="period-container">0~3개월</h1>
-            <h1 class="people-container">1~6명</h1>
-          </div>
-          <div class="black2-container">
-            <h1 class="html-container">HTML</h1>
-            <h1 class="css-container">CSS</h1>
-            <h1 class="Django-container">Django</h1>
-          </div>
-          <div class="img-container"></div>
-          <div class="explain-container">내용 설명</div>
-        </div>
-
-        <div class="proreflect-container">
-            <h1 class="proTitle-container">ProReflect: Title, If it's too I...</h1>
-            <div class="addition-info">
-                <div id="edit-delete-buttons">
-                <button type="button" class="edit-button">수정하기</button>
-                <button type="button" class="delete-button">삭제하기</button>
+        <div class="Big-container">
+            <div class="content-container">
+                <h1 class="title-container">Title: {{ reflection.post.title }}</h1>
+                <h1 class="Username-container">Username: {{ reflection.user.username }}</h1>
+                <div class="black1-container">
+                    <h1 class="period-container">{{ reflection.post.get_development_period_display }}</h1>
+                    <h1 class="people-container">{{ reflection.post.get_participants_display }}</h1>
                 </div>
-                <div class="date-container">YYYY.MM.DD</div>
-                <div class="reflect-container">
-              <h1 class="reflecttext-container">내용</h1>
+                {% load myapp_filters %}
+                <div class="black2-container">
+                  <!-- 기술 스택을 루프를 돌면서 표시 -->
+                  {% for language in reflection.post.languages.all %}
+                      <h1 class="tech-container">{{ language.name }}</h1> <!-- language.name는 기술 스택의 이름을 나타냄 -->
+                  {% empty %}
+                      <h1 class="tech-container">No languages listed</h1>
+                  {% endfor %}
+              </div>
+              
+                <div class="img-container">
+                    {% if reflection.post.file %}
+                        <img src="{{ reflection.post.file.url }}" alt="{{ reflection.post.title }}의 이미지">
+                    {% else %}
+                        <img src="{% static 'img/default_project_image.png' %}" alt="기본 이미지">
+                    {% endif %}
+                </div>
+                <div class="explain-container">{{ reflection.content }}</div>
             </div>
-            </div>
-            
-          </div>     
-      </div>
+
+            <div class="proreflect-container">
+                <h1 class="proTitle-container">ProReflect: {{ reflection.post.title }}</h1>
+                <div class="addition-info">
+                    <div id="edit-delete-buttons">
+                    </div>
+                    <div class="date-container">{{ reflection.created_at|date:"Y.m.d" }}</div>
+                    <div class="reflect-container">
+                        <h1 class="reflecttext-container">{{ reflection.content }}</h1>
+                    </div>
+                </div>
+            </div>     
+        </div>
     </main>
-  </body>
+</body>
 </html>

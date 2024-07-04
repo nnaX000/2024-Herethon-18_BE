@@ -55,5 +55,17 @@ urlpatterns = [
         "detail/<int:post_id>/comment/", v.board_detail, name="comment_create"
     ),  # 댓글 작성 URL 추가
     path("grow_2/<int:post_id>/", v.grow_2, name="grow_2"),
+    path("grow_3/<int:reflection_id>/", v.grow_3, name="grow_3"),
     path("save_reflection/<int:post_id>/", v.save_reflection, name="save_reflection"),
+    path("reflection/<int:reflection_id>/", v.view_reflection, name="view_reflection"),
+    path(
+        "edit_reflection/<int:reflection_id>/",
+        v.edit_reflection,
+        name="edit_reflection",
+    ),
+    path(
+        "delete_reflection/<int:reflection_id>/",
+        v.delete_reflection,
+        name="delete_reflection",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
