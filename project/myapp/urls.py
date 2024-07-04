@@ -13,7 +13,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("create/", AccountCreateView.as_view(), name="login_create"),
     path("", v.main, name="main"),
-    path("login/", v.login, name="login"),
+    path("login/", v.login_view, name="login"),
     path("accounts/", include("allauth.urls")),
     path("grow_1/", v.grow_1, name="grow_1"),
     path("like_post/<int:post_id>/", v.like_post, name="like_post"),

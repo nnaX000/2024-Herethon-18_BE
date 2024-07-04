@@ -24,7 +24,7 @@
         <div class="logo-text">
             <h1>ProReflect</h1>
         </div>
-        <form class="login-form">
+        {% comment %} <form class="login-form">
             <div class="form-text">
                 <h2>환영합니다!</h2>
                 <p>당신의 성장을 응원합니다.</p>
@@ -34,10 +34,27 @@
             </div>
             <div class="input-section">
                 <input type="password" id="id_password" placeholder="PASSWORD" />
-            </div>
+            </div> {% endcomment %}
+            <form method="post" class="login-form">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="form-text">
+                    <h2>환영합니다!</h2>
+                    <p>당신의 성장을 응원합니다.</p>
+                </div>
+                <div class="input-section">
+                    {{ form.username }}
+                </div>
+                <div class="input-section">
+                    {{ form.password }}
+                </div>
             <div class="submit">
                 <div class="signup">
-                    <button type="submit" id="submitButton">회원가입</button>
+                    {% comment %}
+                    #프론트 코드 
+                    <button type="submit" id="submitButton">회원가입</button> {% endcomment %}
+                    <button onclick="location.href='/create'" class="signup-button">회원가입</button>
+
                 </div>
                 <div class="login">
                     <button type="submit" id="submitButton">로그인</button>

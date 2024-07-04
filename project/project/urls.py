@@ -31,7 +31,7 @@ urlpatterns = [
     path("create/", AccountCreateView.as_view(), name="login_create"),
     path("", v.main, name="main"),
     path("board_create/", v.board_create, name="board_create"),
-    path("login/", v.login, name="login"),
+    path("login/", v.login_view, name="login"),
     path("board_list/", v.board_list, name="board_list"),
     path("accounts/", include("allauth.urls")),
     path("grow_1/", v.grow_1, name="grow_1"),

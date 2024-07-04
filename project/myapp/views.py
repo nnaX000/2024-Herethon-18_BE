@@ -77,8 +77,6 @@ def grow_1(request):
     return render(request, "grow_1.html")
 
 
-def login(request):
-    return render(request, "login.html")
 
 
 def mypage_share(request):
@@ -350,3 +348,26 @@ def save_reflection(request, post_id):
             reflection.save()
             return redirect("grow_1")
     return render(request, "grow_2.html", {"post": post})
+
+
+# views.py
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from .forms import LoginForm
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                # 로그인 성공 시 리다이렉트할 URL 설정
+                return redirect('main')  # main 페이지로 리다이렉트
+    else:
+        form = LoginForm()
+
+    return render(request, 'login.html', {'form': form})

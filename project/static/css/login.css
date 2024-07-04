@@ -51,10 +51,28 @@
   margin-right: 0.2em;
 }
 
-.signup button{
+/* .signup button{
     color: #048271;
     border: 2px solid #048271;
     border-radius: 5px;
+} */
+.signup-button {
+    color: #048271;
+    background-color: transparent;
+    border: 2px solid #048271;
+    border-radius: 5px;
+    padding: 0.7em 1em; /* 로그인 버튼과 동일한 패딩 설정 */
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    display: inline-block; /* 인라인 레벨 요소로 설정하여 다른 요소와 올바르게 배치 */
+    margin-right: 10px; /* 인접한 요소와의 간격을 조절 */
+    cursor: pointer; /* 마우스 오버 시 포인터 모양 변경 */
+}
+
+.signup-button:hover {
+    background-color: #048271;
+    color: white;
 }
 
 .login button {
